@@ -1,0 +1,68 @@
+{
+  "bsonType": "object",
+  "required": ["title", "options", "answer", "type"],
+  "permission": {
+    "read": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "title": {
+      "bsonType": "string",
+      "description": "题目标题",
+      "title": "题目"
+    },
+    "options": {
+      "bsonType": "array",
+      "description": "选项列表",
+      "items": {
+        "bsonType": "object",
+        "required": ["key", "content"],
+        "properties": {
+          "key": {
+            "bsonType": "string",
+            "description": "选项标识：A, B, C, D"
+          },
+          "content": {
+            "bsonType": "string",
+            "description": "选项内容"
+          }
+        }
+      }
+    },
+    "answer": {
+      "bsonType": "string",
+      "description": "正确答案：A, B, C, D",
+      "title": "答案"
+    },
+    "analysis": {
+      "bsonType": "string",
+      "description": "题目解析",
+      "title": "解析"
+    },
+    "type": {
+      "bsonType": "string",
+      "description": "题目类型：mock-模拟考试，real-真题练习",
+      "enum": ["mock", "real"],
+      "title": "类型"
+    },
+    "difficulty": {
+      "bsonType": "int",
+      "description": "难度等级：1-简单，2-中等，3-困难",
+      "minimum": 1,
+      "maximum": 3,
+      "defaultValue": 1
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "defaultValue": {
+        "$env": "now"
+      }
+    }
+  }
+} 

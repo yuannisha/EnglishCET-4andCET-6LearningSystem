@@ -1,0 +1,55 @@
+{
+  "bsonType": "object",
+  "required": ["word", "meaning"],
+  "permission": {
+    "read": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "word": {
+      "bsonType": "string",
+      "description": "英文单词",
+      "title": "单词"
+    },
+    "phonetic": {
+      "bsonType": "string",
+      "description": "音标",
+      "title": "音标"
+    },
+    "meaning": {
+      "bsonType": "string",
+      "description": "中文释义",
+      "title": "释义"
+    },
+    "example": {
+      "bsonType": "string",
+      "description": "例句",
+      "title": "例句"
+    },
+    "difficulty": {
+      "bsonType": "int",
+      "description": "难度等级：1-简单，2-中等，3-困难",
+      "minimum": 1,
+      "maximum": 3,
+      "defaultValue": 1
+    },
+    "category": {
+      "bsonType": "string",
+      "description": "单词分类：CET4/CET6",
+      "enum": ["CET4", "CET6"],
+      "title": "分类"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "defaultValue": {
+        "$env": "now"
+      }
+    }
+  }
+} 

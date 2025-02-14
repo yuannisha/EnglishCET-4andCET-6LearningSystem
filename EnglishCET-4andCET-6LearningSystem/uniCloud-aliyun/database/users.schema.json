@@ -1,0 +1,60 @@
+{
+  "bsonType": "object",
+  "required": ["openid"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": "doc.openid == auth.openid",
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "account": {
+      "bsonType": "string",
+      "description": "账号",
+      "title": "账号"
+    },
+    "password": {
+      "bsonType": "string",
+      "description": "密码",
+      "title": "密码"
+    }, 
+    "nickname": {
+      "bsonType": "string",
+      "description": "用户昵称",
+      "title": "昵称"
+    },
+    "avatar": {
+      "bsonType": "string",
+      "description": "用户头像",
+      "title": "头像"
+    },
+    "level": {
+      "bsonType": "string",
+      "description": "用户等级",
+      "title": "等级",
+      "defaultValue": "英语小白"
+    },
+    "study_days": {
+      "bsonType": "int",
+      "description": "学习天数",
+      "minimum": 0,
+      "defaultValue": 0
+    },
+    "points": {
+      "bsonType": "int",
+      "description": "积分",
+      "minimum": 0,
+      "defaultValue": 0
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "defaultValue": {
+        "$env": "now"
+      }
+    }
+  }
+} 

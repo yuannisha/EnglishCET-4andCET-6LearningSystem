@@ -1,0 +1,58 @@
+{
+  "bsonType": "object",
+  "required": ["category", "set_number", "title", "description", "word_limit", "reference_answer", "score"],
+  "permission": {
+    "read": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "category": {
+      "bsonType": "string",
+      "description": "题目类别：CET4/CET6",
+      "enum": ["CET4", "CET6"]
+    },
+    "set_number": {
+      "bsonType": "int",
+      "description": "套题编号"
+    },
+    "little_title": {
+      "bsonType": "string",
+      "description": "小标题"
+    },  
+    "title": {
+      "bsonType": "string",
+      "description": "作文标题"
+    },
+    "word_limit": {
+      "bsonType": "object",
+      "description": "字数限制",
+      "properties": {
+        "min": {
+          "bsonType": "int",
+          "description": "最小字数"
+        },
+        "max": {
+          "bsonType": "int",
+          "description": "最大字数"
+        }
+      }
+    },
+    "reference_answer": {
+      "bsonType": "string",
+      "description": "参考范文"
+    },
+    "score": {
+      "bsonType": "number",
+      "description": "满分分值"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    }
+  }
+} 

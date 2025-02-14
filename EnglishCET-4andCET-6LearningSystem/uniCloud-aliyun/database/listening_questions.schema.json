@@ -1,0 +1,130 @@
+{
+  "bsonType": "object",
+  "required": ["title", "options", "answer", "category", "audio_file"],
+  "permission": {
+    "read": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "category": {
+      "bsonType": "string",
+      "description": "类别：CET4/CET6",
+      "enum": ["CET4", "CET6"],
+      "title": "类别"
+    },
+    "set_number": {
+      "bsonType": "int",
+      "description": "套题编号，同一套题目使用相同编号",
+      "title": "套题编号"
+    },
+    "question_content": {
+      "bsonType": "array",
+      "description": "题目内容",
+      "items": {
+        "bsonType": "object",
+        "description": "题目内容",
+        "properties": {
+          "section_name": {
+            "bsonType": "string",
+            "description": "Section Name"
+          },
+          "description": {
+            "bsonType": "string",
+            "description": "Description"
+          },
+          "questions": {
+            "bsonType": "array",
+            "description": "题目",
+            "items": {
+              "bsonType": "object",
+              "description": "题目",
+              "properties": {
+                "description1": {
+                  "bsonType": "string",
+                  "description": "题目小标题"
+                },
+                "options": {
+                  "bsonType": "array",
+                  "description": "选项",
+                  "items": {
+                    "bsonType": "object",
+                    "description": "选项",
+                    "properties": {
+                      "tips":{
+                        "bsonType": "string",
+                        "description": "选项序号如123"
+                      },
+                      "content": {
+                        "bsonType": "object ",
+                        "description": "选项内容",
+                        "properties": {
+                          "A": {
+                            "bsonType": "string",
+                            "description": "选项内容"
+                          },
+                          "B": {
+                            "bsonType": "string",
+                            "description": "选项内容"
+                          },
+                          "C": {
+                            "bsonType": "string",
+                            "description": "选项内容"
+                          },
+                          "D": {
+                            "bsonType": "string",
+                            "description": "选项内容"
+                          } 
+                        }
+                      }
+                    }
+                  }
+              }
+            }
+          }
+        }
+      }
+    },
+    "answers": {
+      "bsonType": "array",
+      "description": "正确答案如1A2B3C4D",
+      "items": {
+        "bsonType": "object",
+        "description": "正确答案",  
+        "required": ["key", "content","score"],
+        "properties": {
+          "key": {
+            "bsonType": "string",
+            "description": "正确答案"
+          },
+          "content": {
+            "bsonType": "string",
+            "description": "正确答案"
+          },
+          "score": {
+            "bsonType": "double",
+            "description": "题目分值"
+          } 
+        }
+      },
+      "title": "答案"
+    },
+    "audio_file": {
+      "bsonType": "string",
+      "description": "音频文件路径",
+      "title": "音频文件"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "defaultValue": {
+        "$env": "now"
+      }
+    }
+  }
+}
+} 

@@ -1,0 +1,51 @@
+{
+  "bsonType": "object",
+  "required": ["user_id", "word_id", "status"],
+  "permission": {
+    "read": "doc.user_id == auth.uid",
+    "create": true,
+    "update": "doc.user_id == auth.uid",
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "user_id": {
+      "bsonType": "string",
+      "description": "用户ID",
+      "foreignKey": "users._id"
+    },
+    "word_id": {
+      "bsonType": "string",
+      "description": "单词ID",
+      "foreignKey": "words._id"
+    },
+    "status": {
+      "bsonType": "string",
+      "description": "学习状态：new-未学习，learning-学习中，learned-已掌握",
+      "enum": ["new", "learning", "learned"],
+      "title": "学习状态"
+    },
+    "review_times": {
+      "bsonType": "int",
+      "description": "复习次数",
+      "minimum": 0,
+      "defaultValue": 0
+    },
+    "last_review_date": {
+      "bsonType": "timestamp",
+      "description": "最后复习时间",
+      "defaultValue": {
+        "$env": "now"
+      }
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "defaultValue": {
+        "$env": "now"
+      }
+    }
+  }
+} 

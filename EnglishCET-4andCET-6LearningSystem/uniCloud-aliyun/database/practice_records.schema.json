@@ -1,0 +1,104 @@
+{
+  "bsonType": "object",
+  "required": ["user_id", "practice_type"],
+  "permission": {
+    "read": "doc.user_id == auth.uid",
+    "create": true,
+    "update": "doc.user_id == auth.uid",
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "user_id": {
+      "bsonType": "string",
+      "description": "用户ID",
+      "foreignKey": "users._id"
+    },
+    "question_id": {
+      "bsonType": "string",
+      "description": "题目ID"
+    },
+    "practice_type": {
+      "bsonType": "string",
+      "description": "练习类型：mock-模拟考试，real-真题练习，listening-听力练习，reading-阅读练习，writing-写作练习，word-单词练习",
+      "enum": ["mock", "real", "listening", "reading", "writing", "word"],
+      "title": "练习类型"
+    },
+    "category": {
+      "bsonType": "string",
+      "description": "类别：CET4/CET6",
+      "enum": ["CET4", "CET6"],
+      "title": "类别"
+    },
+    "set_number": {
+      "bsonType": "int",
+      "description": "套题编号，仅听力练习时有效",
+      "title": "套题编号"
+    },
+    "lastScore": {
+      "bsonType": "int",
+      "description": "上次得分",
+      "minimum": 1,
+      "defaultValue": 2,
+      "title": "上次得分"
+    },
+    "highestScore": {
+      "bsonType": "int",
+      "description": "最高得分",
+      "minimum": 1,
+      "defaultValue": 2,
+      "title": "最高得分"
+    },  
+    "lastcCorrect_rate": {
+      "bsonType": "double",
+      "description": "上次正确率",
+      "minimum": 0,
+      "maximum": 1,
+      "defaultValue": 0,
+      "title": "上次正确率"
+    },
+    "highestCorrect_rate": {
+      "bsonType": "double",
+      "description": "最高正确率",
+      "minimum": 0,
+      "maximum": 1,
+      "defaultValue": 0,
+      "title": "最高正确率"
+    },
+    "lastCorrectCount": {
+      "bsonType": "int",
+      "description": "上次正确题目数量",
+      "minimum": 0,
+      "defaultValue": 0,
+      "title": "上次正确题目数量"
+    },
+    "highestCorrectCount": {
+      "bsonType": "int",
+      "description": "最高正确题目数量",
+      "minimum": 0,
+      "defaultValue": 0,
+      "title": "最高正确题目数量"
+    },
+    "practice_count": {
+      "bsonType": "int",
+      "description": "练习次数",
+      "minimum": 0,
+      "defaultValue": 0,
+      "title": "练习次数"
+    },
+    "questions_count": {
+      "bsonType": "int",
+      "description": "题目总数",
+      "minimum": 0
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "defaultValue": {
+        "$env": "now"
+      }
+    }
+  }
+} 

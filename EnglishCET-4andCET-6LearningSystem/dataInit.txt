@@ -1,0 +1,543 @@
+[
+  {
+    "word": "bird",
+    "phonetic": "bɜːd",
+    "meaning": "n. 鸟；禽类",
+    "example": "A beautiful bird was singing in the tree.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "celebrate",
+    "phonetic": "ˈselɪbreɪt",
+    "meaning": "v. 庆祝；庆贺",
+    "example": "We will celebrate her birthday next week.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "dream",
+    "phonetic": "driːm",
+    "meaning": "n. 梦；梦想 v. 做梦；梦想",
+    "example": "She has a dream of becoming a doctor.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "enjoy",
+    "phonetic": "ɪnˈdʒɔɪ",
+    "meaning": "v. 享受；喜欢",
+    "example": "I enjoy reading books in my spare time.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "friend",
+    "phonetic": "frend",
+    "meaning": "n. 朋友；友人",
+    "example": "He is my best friend since childhood.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "garden",
+    "phonetic": "ˈɡɑːdn",
+    "meaning": "n. 花园；园子",
+    "example": "She grows vegetables in her garden.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "happy",
+    "phonetic": "ˈhæpi",
+    "meaning": "adj. 快乐的；幸福的",
+    "example": "The children look very happy playing in the park.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "important",
+    "phonetic": "ɪmˈpɔːtnt",
+    "meaning": "adj. 重要的；重大的",
+    "example": "This is an important meeting, don't be late.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "journey",
+    "phonetic": "ˈdʒɜːni",
+    "meaning": "n. 旅行；旅程",
+    "example": "The journey to Paris was long but enjoyable.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "knowledge",
+    "phonetic": "ˈnɒlɪdʒ",
+    "meaning": "n. 知识；学问",
+    "example": "Reading books can increase your knowledge.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "learn",
+    "phonetic": "lɜːn",
+    "meaning": "v. 学习；学会",
+    "example": "It's never too late to learn something new.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "money",
+    "phonetic": "ˈmʌni",
+    "meaning": "n. 钱；货币",
+    "example": "He saves money for his future education.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "nature",
+    "phonetic": "ˈneɪtʃə",
+    "meaning": "n. 自然；本性",
+    "example": "We should protect nature for future generations.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "open",
+    "phonetic": "ˈəʊpən",
+    "meaning": "v. 打开 adj. 开着的",
+    "example": "Please open the window for fresh air.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "people",
+    "phonetic": "ˈpiːpl",
+    "meaning": "n. 人；人们",
+    "example": "Many people enjoy traveling during holidays.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "question",
+    "phonetic": "ˈkwestʃən",
+    "meaning": "n. 问题；疑问",
+    "example": "If you have any questions, please feel free to ask.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "remember",
+    "phonetic": "rɪˈmembə",
+    "meaning": "v. 记得；记住",
+    "example": "I will always remember your kindness.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "student",
+    "phonetic": "ˈstjuːdnt",
+    "meaning": "n. 学生；学员",
+    "example": "He is a hardworking student.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "teacher",
+    "phonetic": "ˈtiːtʃə",
+    "meaning": "n. 教师；老师",
+    "example": "My English teacher is very patient.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "understand",
+    "phonetic": "ˌʌndəˈstænd",
+    "meaning": "v. 理解；明白",
+    "example": "Do you understand the question?",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "visit",
+    "phonetic": "ˈvɪzɪt",
+    "meaning": "v. 参观；访问",
+    "example": "We plan to visit the museum tomorrow.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "water",
+    "phonetic": "ˈwɔːtə",
+    "meaning": "n. 水",
+    "example": "Drinking water is essential for health.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "young",
+    "phonetic": "jʌŋ",
+    "meaning": "adj. 年轻的；年少的",
+    "example": "She looks young for her age.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "zero",
+    "phonetic": "ˈzɪərəʊ",
+    "meaning": "n. 零；零度",
+    "example": "The temperature dropped to zero last night.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "quality",
+    "phonetic": "ˈkwɒləti",
+    "meaning": "n. 质量；品质",
+    "example": "This product is known for its high quality.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "market",
+    "phonetic": "ˈmɑːkɪt",
+    "meaning": "n. 市场；集市",
+    "example": "The local market is very busy on weekends.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "family",
+    "phonetic": "ˈfæmɪli",
+    "meaning": "n. 家庭；家族",
+    "example": "Family is the most important thing in life.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "health",
+    "phonetic": "helθ",
+    "meaning": "n. 健康；卫生",
+    "example": "Good health is better than wealth.",
+    "difficulty": 1,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "island",
+    "phonetic": "ˈaɪlənd",
+    "meaning": "n. 岛；岛屿",
+    "example": "They live on a small island in the Pacific.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "language",
+    "phonetic": "ˈlæŋɡwɪdʒ",
+    "meaning": "n. 语言；语种",
+    "example": "English is a global language.",
+    "difficulty": 2,
+    "category": "CET4",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "abundant",
+    "phonetic": "əˈbʌndənt",
+    "meaning": "adj. 丰富的；充裕的",
+    "example": "The region has abundant natural resources.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "benevolent",
+    "phonetic": "bəˈnevələnt",
+    "meaning": "adj. 仁慈的；慈善的",
+    "example": "The benevolent king was loved by his people.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "catastrophe",
+    "phonetic": "kəˈtæstrəfi",
+    "meaning": "n. 灾难；大祸",
+    "example": "The earthquake was a natural catastrophe.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "deliberate",
+    "phonetic": "dɪˈlɪbərət",
+    "meaning": "adj. 故意的；蓄意的",
+    "example": "This was a deliberate attempt to mislead people.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "eloquent",
+    "phonetic": "ˈeləkwənt",
+    "meaning": "adj. 雄辩的；有说服力的",
+    "example": "She gave an eloquent speech at the conference.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "feasible",
+    "phonetic": "ˈfiːzəbl",
+    "meaning": "adj. 可行的；可能的",
+    "example": "The project seems feasible with our current resources.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "gratitude",
+    "phonetic": "ˈɡrætɪtjuːd",
+    "meaning": "n. 感激；感谢",
+    "example": "She expressed her gratitude for their help.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "hypothesis",
+    "phonetic": "haɪˈpɒθəsɪs",
+    "meaning": "n. 假设；假说",
+    "example": "Scientists are testing a new hypothesis.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "illuminate",
+    "phonetic": "ɪˈluːmɪneɪt",
+    "meaning": "v. 照明；阐明",
+    "example": "The street lamps illuminate the road at night.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "jurisdiction",
+    "phonetic": "ˌdʒʊərɪsˈdɪkʃn",
+    "meaning": "n. 司法权；管辖权",
+    "example": "This case falls under federal jurisdiction.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "kinetic",
+    "phonetic": "kɪˈnetɪk",
+    "meaning": "adj. 运动的；活力的",
+    "example": "Kinetic energy is energy of motion.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "legitimate",
+    "phonetic": "lɪˈdʒɪtɪmət",
+    "meaning": "adj. 合法的；正当的",
+    "example": "This is a legitimate concern that needs to be addressed.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "magnitude",
+    "phonetic": "ˈmæɡnɪtjuːd",
+    "meaning": "n. 震级；重要性",
+    "example": "The earthquake had a magnitude of 6.5.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "negotiate",
+    "phonetic": "nɪˈɡəʊʃieɪt",
+    "meaning": "v. 谈判；协商",
+    "example": "The two countries will negotiate a trade deal.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "obsolete",
+    "phonetic": "ˈɒbsəliːt",
+    "meaning": "adj. 过时的；废弃的",
+    "example": "This technology is becoming obsolete.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "paradigm",
+    "phonetic": "ˈpærədaɪm",
+    "meaning": "n. 范例；模式",
+    "example": "This discovery represents a new paradigm in science.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "quantum",
+    "phonetic": "ˈkwɒntəm",
+    "meaning": "n. 量子；定量",
+    "example": "Quantum physics is a complex field of study.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "rhetoric",
+    "phonetic": "ˈretərɪk",
+    "meaning": "n. 修辞；华丽的词藻",
+    "example": "His speech was full of empty rhetoric.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "synthesis",
+    "phonetic": "ˈsɪnθəsɪs",
+    "meaning": "n. 合成；综合",
+    "example": "The synthesis of these compounds is complex.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "tangible",
+    "phonetic": "ˈtændʒəbl",
+    "meaning": "adj. 有形的；实际的",
+    "example": "We need tangible evidence to support this claim.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "unanimous",
+    "phonetic": "juːˈnænɪməs",
+    "meaning": "adj. 一致的；全体一致的",
+    "example": "The decision was unanimous among board members.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "versatile",
+    "phonetic": "ˈvɜːsətaɪl",
+    "meaning": "adj. 多才多艺的；用途广泛的",
+    "example": "She is a versatile actress who can play many roles.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "withstand",
+    "phonetic": "wɪðˈstænd",
+    "meaning": "v. 经受住；承受",
+    "example": "The building was designed to withstand earthquakes.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "xenophobia",
+    "phonetic": "ˌzenəˈfəʊbiə",
+    "meaning": "n. 仇外；排外",
+    "example": "The campaign aimed to combat xenophobia.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "yield",
+    "phonetic": "jiːld",
+    "meaning": "v. 屈服；生产",
+    "example": "This field should yield a good crop this year.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "zealous",
+    "phonetic": "ˈzeləs",
+    "meaning": "adj. 热心的；热情的",
+    "example": "He is a zealous supporter of environmental protection.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "paradox",
+    "phonetic": "ˈpærədɒks",
+    "meaning": "n. 悖论；矛盾的事",
+    "example": "Time travel creates many logical paradoxes.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "metaphor",
+    "phonetic": "ˈmetəfə",
+    "meaning": "n. 隐喻；暗喻",
+    "example": "Life is a journey is a common metaphor.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "integrity",
+    "phonetic": "ɪnˈteɡrəti",
+    "meaning": "n. 正直；诚实",
+    "example": "He is known for his integrity in business dealings.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  },
+  {
+    "word": "diversity",
+    "phonetic": "daɪˈvɜːsəti",
+    "meaning": "n. 多样性；差异",
+    "example": "Cultural diversity enriches our society.",
+    "difficulty": 3,
+    "category": "CET6",
+    "create_date": "2025-02-12 10:00:00"
+  }
+]
+</rewritten_file>

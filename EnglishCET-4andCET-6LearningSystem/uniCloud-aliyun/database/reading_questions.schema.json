@@ -1,0 +1,97 @@
+{
+  "bsonType": "object",
+  "required": ["category", "set_number", "passage", "questions", "answers"],
+  "permission": {
+    "read": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "category": {
+      "bsonType": "string",
+      "description": "题目类别：CET4/CET6",
+      "enum": ["CET4", "CET6"]
+    },
+    "set_number": {
+      "bsonType": "int",
+      "description": "套题编号"
+    },
+    "passage": {
+      "bsonType": "string",
+      "description": "阅读文章内容"
+    },
+    "little_title": {
+      "bsonType": "string",
+      "description": "小标题"
+    },
+    "questions": {
+      "bsonType": "array",
+      "description": "问题列表",
+      "items": {
+        "bsonType": "object",
+        "properties": {
+          "question_number": {
+            "bsonType": "int",
+            "description": "题号"
+          },
+          "question": {
+            "bsonType": "string",
+            "description": "问题内容"
+          },
+          "options": {
+            "bsonType": "object",
+            "description": "选项",
+            "properties": {
+              "A": {
+                "bsonType": "string",
+                "description": "选项A"
+              },
+              "B": {
+                "bsonType": "string",
+                "description": "选项B"
+              },
+              "C": {
+                "bsonType": "string",
+                "description": "选项C"
+              },
+              "D": {
+                "bsonType": "string",
+                "description": "选项D"
+              }
+            }
+          }
+        }
+      }
+    },
+    "answers": {
+      "bsonType": "array",
+      "description": "答案列表",
+      "items": {
+        "bsonType": "object",
+        "properties": {
+          "question_number": {
+            "bsonType": "int",
+            "description": "题号"
+          },
+          "correct_answer": {
+            "bsonType": "string",
+            "description": "正确答案",
+            "enum": ["A", "B", "C", "D"]
+          },
+          "score": {
+            "bsonType": "number",
+            "description": "分值"
+          }
+        }
+      }
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    }
+  }
+} 

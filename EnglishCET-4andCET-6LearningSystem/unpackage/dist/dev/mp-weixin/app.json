@@ -1,0 +1,57 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/words/words",
+    "pages/practice/practice",
+    "pages/mine/mine",
+    "pages/mine/center",
+    "pages/practice/mock-exam/mock-exam",
+    "pages/practice/real-exam/real-exam",
+    "pages/practice/wrong-questions/wrong-questions",
+    "pages/login/login",
+    "pages/login/register",
+    "pages/listening/listening",
+    "pages/reading/reading",
+    "pages/writing/writing",
+    "pages/translation/translation"
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "四六级学习",
+    "navigationBarBackgroundColor": "#4095E5",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#4095E5",
+    "borderStyle": "black",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/words/words",
+        "text": "单词",
+        "iconPath": "static/tabbar/word.png",
+        "selectedIconPath": "static/tabbar/word-active.png"
+      },
+      {
+        "pagePath": "pages/practice/practice",
+        "text": "练习",
+        "iconPath": "static/tabbar/practice.png",
+        "selectedIconPath": "static/tabbar/practice-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "static/tabbar/user.png",
+        "selectedIconPath": "static/tabbar/user-active.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

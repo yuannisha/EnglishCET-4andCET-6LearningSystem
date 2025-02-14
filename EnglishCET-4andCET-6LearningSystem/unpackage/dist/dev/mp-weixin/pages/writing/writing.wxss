@@ -1,0 +1,162 @@
+
+.container {
+  padding: 30rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.category-selector {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+}
+.category-item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  color: #666;
+  border-radius: 10rpx;
+  margin: 0 10rpx;
+}
+.category-item.active {
+  background-color: #4095E5;
+  color: #fff;
+}
+.practice-result {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+.practice-result text {
+  font-size: 28rpx;
+  color: #333;
+}
+.restart-btn {
+  margin-top: 20rpx;
+  background-color: #4095E5;
+  color: #fff;
+}
+.set-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+}
+.set-info {
+  font-size: 28rpx;
+  color: #333;
+}
+.set-actions {
+  display: flex;
+  gap: 20rpx;
+}
+.nav-btn {
+  font-size: 24rpx;
+  padding: 10rpx 30rpx;
+}
+.writing-content {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 120rpx;
+}
+.writing-title {
+  margin-bottom: 30rpx;
+}
+.title-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  line-height: 1.6;
+}
+.writing-description {
+  margin-bottom: 40rpx;
+}
+.description-text {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  display: block;
+  margin-bottom: 20rpx;
+}
+.word-limit {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+}
+.writing-area {
+  margin-bottom: 40rpx;
+}
+.writing-input {
+  width: 100%;
+  height: 400rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+}
+.word-count {
+  font-size: 24rpx;
+  color: #666;
+  text-align: right;
+  display: block;
+  margin-top: 10rpx;
+}
+.word-count.warning {
+  color: #ff4d4f;
+}
+.reference-answer {
+  margin-top: 40rpx;
+  padding-top: 40rpx;
+  border-top: 1px solid #eee;
+}
+.reference-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  display: block;
+}
+.reference-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.8;
+}
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 20rpx 30rpx;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+.submit-btn {
+  width: 100%;
+  font-size: 28rpx;
+  background-color: #4095E5;
+  color: #fff;
+}
+.empty-tip {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}

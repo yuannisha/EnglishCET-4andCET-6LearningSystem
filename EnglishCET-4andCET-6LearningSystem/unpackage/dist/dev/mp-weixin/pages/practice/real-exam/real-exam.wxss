@@ -1,0 +1,145 @@
+
+.container {
+  padding: 30rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+.ready-card,
+.result-card {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  text-align: center;
+}
+.ready-title,
+.result-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+}
+.ready-info,
+.result-info {
+  margin-bottom: 40rpx;
+}
+.ready-info text,
+.result-info text {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+.exam-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+}
+.progress,
+.timer {
+  font-size: 28rpx;
+  color: #666;
+}
+.question-card {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+.question-title {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 30rpx;
+}
+.options {
+  margin-bottom: 20rpx;
+}
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border: 1px solid #eee;
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+}
+.option-item.active {
+  background-color: #4095E5;
+  border-color: #4095E5;
+}
+.option-item.active text {
+  color: #fff;
+}
+.option-key {
+  width: 60rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+.option-content {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+.exam-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 0;
+}
+.exam-footer .btn {
+  width: 30%;
+}
+
+/* 解析部分样式 */
+.analysis-section {
+  margin-top: 40rpx;
+  text-align: left;
+}
+.analysis-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+.question-list {
+  margin-bottom: 40rpx;
+}
+.question-item {
+  background-color: #f8f8f8;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+.question-number {
+  font-size: 28rpx;
+  color: #666;
+}
+.answer-status {
+  font-size: 28rpx;
+}
+.answer-status.correct {
+  color: #4caf50;
+}
+.answer-status.wrong {
+  color: #f44336;
+}
+.question-content {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+.correct-answer {
+  font-size: 28rpx;
+  color: #4caf50;
+  margin-bottom: 10rpx;
+}
+.analysis-content {
+  font-size: 28rpx;
+  color: #666;
+  background-color: #fff;
+  padding: 10rpx;
+  border-radius: 6rpx;
+}

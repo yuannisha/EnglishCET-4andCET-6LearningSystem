@@ -1,0 +1,42 @@
+---
+description: 基于UniApp+uniCloud的微信小程序的英语四六级学习系统
+globs: 
+---
+---
+description: project develop rules
+globs: 
+---
+
+---
+
+### **三、.cursorrules 文件配置**
+
+```plaintext
+# Project Context
+这是一个基于UniApp+uniCloud的微信小程序的英语四六级学习系统的毕业设计，需在一天内完成核心功能开发以及页面设计，避免复杂后端逻辑。
+
+# Coding Standards
+## 技术规范
+- 前端使用Vue3组合式API（<script setup>语法）
+- 数据操作直接调用uniCloud API（禁止使用axios）
+- 页面样式统一使用rpx单位适配多端
+- 云数据库集合名必须为英文复数（如`spots`）
+
+## 代码风格
+- 变量命名：
+  - 普通变量：camelCase（如userInfo）
+  - 云数据库引用：db_前缀（如db_spots）
+- 方法命名：动词开头（如loadSpotList）
+- 组件文件：存放于/components目录
+
+## AI生成约束
+- 优先使用uni-ui组件（如<uni-card>）
+- 地图必须使用uni-app原生map组件
+- 用户登录强制使用uni-id（无需手机号授权）
+- 异步操作需添加uni.showLoading提示
+
+## 禁止项
+- 禁用eval()/document等Web专有API
+- 禁用第三方UI库（仅用uni-ui）
+- 禁用复杂SQL查询（使用where简单过滤）
+- 云函数中禁止使用dbCmd.aggregate来实现功能，使用最简单明了的方式进行
