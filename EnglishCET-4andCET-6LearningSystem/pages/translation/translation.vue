@@ -175,7 +175,7 @@ const submitAnswer = async () => {
       data: {
         userId: user_id,
         question_id: questionId.value,
-        question_type: 'translation',
+        practice_type: 'translation',
         userScore: userScore.value
       }
     })

@@ -201,7 +201,7 @@ const submitAnswer = async () => {
       data: {
         userId: user_id,
         question_id: questionId.value,
-        question_type: 'writing',
+        practice_type: 'writing',
         userScore: userScore.value
       }
     })

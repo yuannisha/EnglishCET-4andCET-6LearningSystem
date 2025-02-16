@@ -34,9 +34,22 @@ exports.main = async (event, context) => {
       .doc(user._id)
       .update({
         token: token,
-        last_login_time: Date.now()
+        last_login_time: new Date()
+      })
+
+    //更新学习天数，比较上次登录的日期，如果超过一天，则加一天，否则不加  
+    const today = new Date()
+    const lastLoginDate = new Date(user.last_login_time)
+    const timeDiff = today - lastLoginDate
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24))
+    const days =  daysDiff > 0 ? user.study_days + 1 : user.study_days
+    await db.collection('users')
+      .doc(user._id)  
+      .update({
+        study_days: days
       })
     
+
     return {
       code: 0,
       msg: '登录成功',
@@ -46,8 +59,9 @@ exports.main = async (event, context) => {
         account: user.account,
         nickname: user.nickname,
         avatar: user.avatar,
+        level: user.level,
         points: user.points,
-        study_days: user.study_days
+        study_days: days
       }
     }
   } catch (e) {

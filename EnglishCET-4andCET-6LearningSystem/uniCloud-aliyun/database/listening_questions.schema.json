@@ -118,6 +118,22 @@
       "description": "音频文件路径",
       "title": "音频文件"
     },
+    "question_type": {
+      "bsonType": "string",
+      "description": "题目类型：mock-模拟题，exam-真题",
+      "enum": ["mock", "exam"],
+      "title": "题目类型"
+    },
+    "year": {
+      "bsonType": "string",
+      "description": "年份",
+      "title": "年份"
+    },
+      "month": {
+      "bsonType": "string",
+      "description": "月份",
+      "title": "月份"
+    },
     "create_date": {
       "bsonType": "timestamp",
       "description": "创建时间",

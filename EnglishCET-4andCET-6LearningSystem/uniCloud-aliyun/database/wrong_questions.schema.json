@@ -23,8 +23,8 @@
     },
     "question_type": {
       "bsonType": "string",
-      "description": "题目类型：word-单词，listening-听力，reading-阅读，writing-写作",
-      "enum": ["word", "listening", "reading", "writing"],
+      "description": "题目类型：word-单词，listening-听力，reading-阅读，writing-写作，translation-翻译",
+      "enum": ["word", "listening", "reading", "writing", "translation"],
       "title": "题目类型"
     },
     "wrong_times": {

@@ -10,46 +10,55 @@ exports.main = async (event, context) => {
 	const db = uniCloud.database()
 	
 	try {
-		const { userId, nickname, avatar } = event
+		const { userId,account, nickname, avatar,level } = event
+		const { totalLearned } = event
 		if (!userId) {
 			return {
 				code: -1,
 				msg: '用户未登录'
 			}
 		}
-		
-		const account = event.account
+		if(account){
         // 检查手机号是否已被使用
         const { data: [userInfo] } = await db.collection('users')
 			.where({
 				account: account
 			})
 			.get()
+			if (userInfo) {
+				return {
+					code: -1,
+					msg: '该手机号已被使用'
+				}
+			}
+		}
+		if(nickname){
         //检查昵称是否已被使用
         const { data: [userInfoWithNickname] } = await db.collection('users')
 			.where({
 				nickname: nickname
 			})
 			.get()
-
-		if (userInfo) {
-			return {
-				code: -1,
-				msg: '该手机号已被使用'
+			if (userInfoWithNickname) {
+				return {
+					code: -1,
+					msg: '该昵称已被使用'
+				}
 			}
 		}
-        if (userInfoWithNickname) {
-			return {
-				code: -1,
-				msg: '该昵称已被使用'
-			}
-		}   
+		const user = await db.collection('users')	
+			.where({
+				_id: userId
+			})
+			.get()
+
 			// 用户存在，更新信息
 			const updateData = {}
 			if (account) updateData.account = account   
 			if (nickname) updateData.nickname = nickname
 			if (avatar) updateData.avatar = avatar
-			
+			if (totalLearned) updateData.points = totalLearned	
+			if (level) updateData.level = level
 			await db.collection('users')
 				.where({
 					_id: userId
@@ -60,8 +69,8 @@ exports.main = async (event, context) => {
 				code: 0,
 				msg: 'success',
 				data: {
-					...userInfo,
-					...updateData
+					...user,
+					...updateData,
 				}
 			}
 	} catch (e) {

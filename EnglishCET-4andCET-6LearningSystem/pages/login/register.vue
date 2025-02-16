@@ -151,22 +151,6 @@ const handleRegister = async () => {
       title: '注册中...'
     })
     
-    // 检查手机号是否已被注册
-    const checkRes = await uniCloud.callFunction({
-      name: 'checkAccountExists',
-      data: {
-        account: form.value.account
-      }
-    })
-    
-    if (checkRes.result.exists) {
-      uni.showToast({
-        title: '该手机号已被注册',
-        icon: 'none'
-      })
-      return
-    }
-    
     // 注册用户
     const { result } = await uniCloud.callFunction({
       name: 'simpleRegister',
@@ -176,6 +160,21 @@ const handleRegister = async () => {
         nickname: form.value.nickname
       }
     })
+
+    if (result.code === -2) {
+      uni.showToast({
+        title: '该手机号已被注册',
+        icon: 'none'
+      })
+      return
+    }
+    if (result.code === -3) {
+      uni.showToast({
+        title: '该昵称已被注册',
+        icon: 'none'
+      })
+      return
+    }
     
     if (result.code === 0) {
       uni.showToast({

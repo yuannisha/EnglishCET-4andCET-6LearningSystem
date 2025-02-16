@@ -81,6 +81,7 @@ const loadQuestions = async () => {
         set_number: currentSet.value
       }
     })
+    console.log("result",result)
     
     if (result.code === 0) {
       questionList.value = result.data.list
@@ -196,7 +197,7 @@ const submitAnswers = async () => {
   try {
     // 计算得分和正确率
     questionList.value[0].answers.forEach((answer, index) => {
-      if (userAnswers.value[`${index + 1}`] === answer.correct_answer) {
+      if (userAnswers.value[`${index + 1}`] === answer.content) {
         userScore.value += answer.score
         correctCount.value++
       }
@@ -217,7 +218,7 @@ const submitAnswers = async () => {
       data: {
         userId: user_id,
         question_id: questionId.value,
-        question_type: 'reading',
+        practice_type: 'reading',
         correctCount: correctCount.value,
         correctRate: correctRate.value,
         userScore: userScore.value
@@ -352,8 +353,8 @@ onShow(() => {
                 :key="key"
                 :class="{
                   active: userAnswers[`${index + 1}`] === key,
-                  correct: showAnswers && questionList[0].answers[index].correct_answer === key,
-                  wrong: showAnswers && userAnswers[`${index + 1}`] === key && questionList[0].answers[index].correct_answer !== key
+                  correct: showAnswers && questionList[0].answers[index].content === key,
+                  wrong: showAnswers && userAnswers[`${index + 1}`] === key && questionList[0].answers[index].content !== key
                 }"
                 @tap="selectAnswer(index + 1, key)"
               >

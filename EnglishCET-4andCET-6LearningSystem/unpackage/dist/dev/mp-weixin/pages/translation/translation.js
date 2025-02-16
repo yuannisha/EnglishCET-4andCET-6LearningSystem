@@ -102,7 +102,7 @@ const _sfc_main = {
           data: {
             userId: user_id,
             question_id: questionId.value,
-            question_type: "translation",
+            practice_type: "translation",
             userScore: userScore.value
           }
         });

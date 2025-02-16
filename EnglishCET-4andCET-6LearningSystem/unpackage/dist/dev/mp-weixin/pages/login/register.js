@@ -68,19 +68,6 @@ const _sfc_main = {
         common_vendor.index.showLoading({
           title: "注册中..."
         });
-        const checkRes = await common_vendor.er.callFunction({
-          name: "checkAccountExists",
-          data: {
-            account: form.value.account
-          }
-        });
-        if (checkRes.result.exists) {
-          common_vendor.index.showToast({
-            title: "该手机号已被注册",
-            icon: "none"
-          });
-          return;
-        }
         const { result } = await common_vendor.er.callFunction({
           name: "simpleRegister",
           data: {
@@ -89,6 +76,20 @@ const _sfc_main = {
             nickname: form.value.nickname
           }
         });
+        if (result.code === -2) {
+          common_vendor.index.showToast({
+            title: "该手机号已被注册",
+            icon: "none"
+          });
+          return;
+        }
+        if (result.code === -3) {
+          common_vendor.index.showToast({
+            title: "该昵称已被注册",
+            icon: "none"
+          });
+          return;
+        }
         if (result.code === 0) {
           common_vendor.index.showToast({
             title: "注册成功",
@@ -104,7 +105,7 @@ const _sfc_main = {
           });
         }
       } catch (e) {
-        common_vendor.index.__f__("error", "at pages/login/register.vue:196", e);
+        common_vendor.index.__f__("error", "at pages/login/register.vue:195", e);
         common_vendor.index.showToast({
           title: "注册失败",
           icon: "none"

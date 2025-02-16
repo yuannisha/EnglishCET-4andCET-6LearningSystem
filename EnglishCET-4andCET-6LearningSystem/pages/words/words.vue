@@ -230,13 +230,31 @@ const markWordStatus = async (status) => {
   })
 }
 
+const updateUserLevel = async (userId,totalLearned,level) => {
+  const {result} = await uniCloud.callFunction({
+    name: 'updateUserInfo',
+    data: {
+      userId: userId,
+      totalLearned: totalLearned,
+      level: level
+    }
+  })
+
+  if(result.code === 0){
+            uni.showModal({
+              title: `恭喜你已经掌握了${totalLearned}个单词,你的等级已经提升为${level}！`,
+              icon: 'success',
+              duration: 4000
+      })
+  }
+}
 /**
  * @description 更新单词学习进度
  */
 const updateWordProgress = async (status) => {
   try {
     const currentWord = wordList.value[currentIndex.value]
-    await uniCloud.callFunction({
+    const {result} = await uniCloud.callFunction({
       name: 'updateWordProgress',
       data: {
         user_id: uni.getStorageSync('userInfo')._id,
@@ -244,6 +262,68 @@ const updateWordProgress = async (status) => {
         status: status
       }
     })
+    console.log("result",result)
+    console.log("status",status)
+    console.log("result.totalLearned.total",result.totalLearned.total)
+    
+    if(result.code === 0 && status === 'learned' && result.totalLearned.total > 0){
+      uni.setStorageSync('userInfo',{
+        ...uni.getStorageSync('userInfo'),
+        points: result.totalLearned.total
+      })
+      console.log("uni.getStorageSync('userInfo')",uni.getStorageSync('userInfo'))
+      if(uni.getStorageSync('userInfo').points > 2 && uni.getStorageSync('userInfo').points <= 4){
+        if(uni.getStorageSync('userInfo').level === '英语小白'){
+          uni.setStorageSync('userInfo',{
+            ...uni.getStorageSync('userInfo'),
+            level: '英语初学者'
+          })
+          console.log("uni.getStorageSync('userInfo,更新等级')",uni.getStorageSync('userInfo'))
+          updateUserLevel(uni.getStorageSync('userInfo')._id,result.totalLearned.total,'英语初学者')
+        } 
+      }else if(uni.getStorageSync('userInfo').points > 4 && uni.getStorageSync('userInfo').points <= 6){
+        if(uni.getStorageSync('userInfo').level === '英语初学者'){
+          uni.setStorageSync('userInfo',{
+            ...uni.getStorageSync('userInfo'),
+            level: '英语入门'
+          })
+        } 
+        updateUserLevel(uni.getStorageSync('userInfo')._id,result.totalLearned.total,'英语入门')
+      }else if(uni.getStorageSync('userInfo').points > 6 && uni.getStorageSync('userInfo').points <= 8){
+        if(uni.getStorageSync('userInfo').level === '英语入门'){
+          uni.setStorageSync('userInfo',{
+            ...uni.getStorageSync('userInfo'),
+            level: '英语进阶'
+          })
+        } 
+        updateUserLevel(uni.getStorageSync('userInfo')._id,result.totalLearned.total,'英语进阶')
+      }else if(uni.getStorageSync('userInfo').points > 8 && uni.getStorageSync('userInfo').points <= 10){
+        if(uni.getStorageSync('userInfo').level === '英语进阶'){
+          uni.setStorageSync('userInfo',{
+            ...uni.getStorageSync('userInfo'),
+            level: '英语高手'
+          })
+        } 
+        updateUserLevel(uni.getStorageSync('userInfo')._id,result.totalLearned.total,'英语高手') 
+      }else if(uni.getStorageSync('userInfo').points > 10 && uni.getStorageSync('userInfo').points <= 12){
+        if(uni.getStorageSync('userInfo').level === '英语高手'){
+          uni.setStorageSync('userInfo',{
+            ...uni.getStorageSync('userInfo'),
+            level: '英语大师'
+          })
+        } 
+        updateUserLevel(uni.getStorageSync('userInfo')._id,result.totalLearned.total,'英语大师') 
+      }else if(uni.getStorageSync('userInfo').points > 12){
+        if(uni.getStorageSync('userInfo').level === '英语大师'){
+          uni.setStorageSync('userInfo',{
+            ...uni.getStorageSync('userInfo'),
+            level: '英语王者'
+          })
+        }  
+        updateUserLevel(uni.getStorageSync('userInfo')._id,result.totalLearned.total,'英语王者') 
+      }
+      
+    }
     
     // 更新本地状态
     currentWord.status = status

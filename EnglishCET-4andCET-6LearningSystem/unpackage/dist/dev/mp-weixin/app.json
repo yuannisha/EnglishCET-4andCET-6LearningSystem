@@ -13,7 +13,11 @@
     "pages/listening/listening",
     "pages/reading/reading",
     "pages/writing/writing",
-    "pages/translation/translation"
+    "pages/translation/translation",
+    "pages/mine/learning-records/learning-records",
+    "pages/mine/favorites/favorites",
+    "pages/mine/study-plan/study-plan",
+    "pages/mine/settings/settings"
   ],
   "window": {
     "navigationBarTextStyle": "white",

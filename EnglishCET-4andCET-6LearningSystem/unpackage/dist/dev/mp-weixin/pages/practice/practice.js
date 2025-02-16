@@ -17,15 +17,11 @@ const _sfc_main = {
         desc: "历年四六级真题训练",
         icon: "/static/icons/real-exam.png",
         path: "/pages/practice/real-exam/real-exam"
-      },
-      {
-        id: 3,
-        title: "错题集",
-        desc: "记录并复习错题",
-        icon: "/static/icons/wrong-questions.png",
-        path: "/pages/practice/wrong-questions/wrong-questions"
       }
     ]);
+    const hasStudyDays = common_vendor.ref({
+      days: common_vendor.index.getStorageSync("userInfo").study_days
+    });
     const statistics = common_vendor.ref({
       todayQuestions: 0,
       correctRate: 0,
@@ -39,10 +35,13 @@ const _sfc_main = {
     const loadStatistics = async () => {
       try {
         const { result } = await common_vendor.er.callFunction({
-          name: "getUserStatistics"
+          name: "getUserStatistics",
+          data: {
+            user_id: common_vendor.index.getStorageSync("userInfo")._id
+          }
         });
         if (result.code === 0) {
-          statistics.value = result.data;
+          statistics.value = result.data.practice_record;
         }
       } catch (e) {
         common_vendor.index.__f__("error", "at pages/practice/practice.vue:63", "获取统计数据失败", e);
@@ -67,10 +66,9 @@ const _sfc_main = {
     });
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.t(statistics.value.todayQuestions),
-        b: common_vendor.t(statistics.value.correctRate),
-        c: common_vendor.t(statistics.value.studyDays),
-        d: common_vendor.f(practiceTypes.value, (item, k0, i0) => {
+        a: common_vendor.t(statistics.value.total > 0 ? statistics.value.total : 0),
+        b: common_vendor.t(hasStudyDays.value.days),
+        c: common_vendor.f(practiceTypes.value, (item, k0, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.title),

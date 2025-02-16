@@ -6806,7 +6806,7 @@ function initOnError() {
   };
 }
 function initRuntimeSocketService() {
-  const hosts = "192.168.110.25,127.0.0.1";
+  const hosts = "192.168.110.186,127.0.0.1";
   const port = "8090";
   const id = "mp-weixin_3X6iuv";
   const lazy = typeof swan !== "undefined";
@@ -7817,6 +7817,30 @@ const pages = [
     style: {
       navigationBarTitleText: "翻译练习"
     }
+  },
+  {
+    path: "pages/mine/learning-records/learning-records",
+    style: {
+      navigationBarTitleText: "学习记录"
+    }
+  },
+  {
+    path: "pages/mine/favorites/favorites",
+    style: {
+      navigationBarTitleText: "我的收藏"
+    }
+  },
+  {
+    path: "pages/mine/study-plan/study-plan",
+    style: {
+      navigationBarTitleText: "学习计划"
+    }
+  },
+  {
+    path: "pages/mine/settings/settings",
+    style: {
+      navigationBarTitleText: "设置"
+    }
   }
 ];
 const globalStyle = {
@@ -8187,7 +8211,7 @@ class S {
 function T(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const b = true, E = "mp-weixin", P = T(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), C = E, A = T('{"address":["127.0.0.1","192.168.110.25"],"servePort":7000,"debugPort":9000,"initialLaunchType":"local","skipFiles":["<node_internals>/**","E:/HBuilderX/HBuilderX.4.45.2025010502/HBuilderX/plugins/unicloud/**/*.js"]}'), O = T('[{"provider":"aliyun","spaceName":"uniserver","spaceId":"mp-61955188-4c98-45ca-a1f1-471cc333073c","clientSecret":"VN/xAUS8on0tOl/t6DrQbQ==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const b = true, E = "mp-weixin", P = T(define_process_env_UNI_SECURE_NETWORK_CONFIG_default), C = E, A = T('{"address":["127.0.0.1","192.168.110.186"],"servePort":7000,"debugPort":9000,"initialLaunchType":"local","skipFiles":["<node_internals>/**","E:/HBuilderX/HBuilderX.4.45.2025010502/HBuilderX/plugins/unicloud/**/*.js"]}'), O = T('[{"provider":"aliyun","spaceName":"uniserver","spaceId":"mp-61955188-4c98-45ca-a1f1-471cc333073c","clientSecret":"VN/xAUS8on0tOl/t6DrQbQ==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let N = "";
 try {
   N = "__UNI__0FCBB2C";

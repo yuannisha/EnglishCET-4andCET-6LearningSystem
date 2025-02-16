@@ -198,7 +198,7 @@ const _sfc_main = {
           data: {
             userId: user_id,
             question_id: questionId.value,
-            question_type: "listening",
+            practice_type: "listening",
             correctCount: correctCount.value,
             correctRate: correctRate.value,
             userScore: userScore.value

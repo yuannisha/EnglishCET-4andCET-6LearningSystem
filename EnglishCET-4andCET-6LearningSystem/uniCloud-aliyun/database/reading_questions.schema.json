@@ -73,11 +73,11 @@
       "items": {
         "bsonType": "object",
         "properties": {
-          "question_number": {
+          "key": {
             "bsonType": "int",
             "description": "题号"
           },
-          "correct_answer": {
+          "content": {
             "bsonType": "string",
             "description": "正确答案",
             "enum": ["A", "B", "C", "D"]
@@ -88,6 +88,22 @@
           }
         }
       }
+    },
+    "question_type": {
+      "bsonType": "string",
+      "description": "题目类型：mock-模拟题，exam-真题",
+      "enum": ["mock", "exam"],
+      "title": "题目类型"
+    },
+    "year": {
+      "bsonType": "string",
+      "description": "年份",
+      "title": "年份"
+    },
+      "month": {
+      "bsonType": "string",
+      "description": "月份",
+      "title": "月份"
     },
     "create_date": {
       "bsonType": "timestamp",

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 /**
  * @description 考试时间（分钟）
@@ -25,18 +25,18 @@ const currentCategory = ref('CET4')
  * @description 类别选项
  */
 const categoryOptions = ref([
-  { value: 'CET4', label: '四级考试' },
-  { value: 'CET6', label: '六级考试' }
+  { value: 'CET4', label: '大学英语四级' },
+  { value: 'CET6', label: '大学英语六级' }
 ])
 
 /**
- * @description 考试题目数据
+ * @description 考试数据
  */
 const examData = ref({
-  listening: null,
-  reading: null,
-  translation: null,
-  writing: null
+  listening: [],
+  reading: [],
+  translation: [],
+  writing: []
 })
 
 /**
@@ -48,14 +48,14 @@ const currentSection = ref('listening') // listening, reading, translation, writ
  * @description 用户答案
  */
 const userAnswers = ref({
-  listening: {},
-  reading: {},
+  listening: [],
+  reading: [],
   translation: '',
   writing: ''
 })
 
 /**
- * @description 分数统计
+ * @description 分数
  */
 const scores = ref({
   listening: 0,
@@ -66,15 +66,15 @@ const scores = ref({
 })
 
 /**
+ * @description 音频播放器
+ */
+const audioContext = ref(null)
+const isPlaying = ref(false)
+
+/**
  * @description 计时器
  */
 let timer = null
-
-/**
- * @description 音频播放状态
- */
-const audioPlaying = ref(false)
-const audioContext = ref(null)
 
 /**
  * @description 加载考试题目
@@ -84,55 +84,26 @@ const loadExamQuestions = async () => {
     uni.showLoading({
       title: '加载中...'
     })
-    
-    // 加载听力题目
-    const listeningRes = await uniCloud.callFunction({
-      name: 'getListeningQuestions',
+    console.log("currentCategory.value",currentCategory.value)
+    const { result } = await uniCloud.callFunction({
+      name: 'getMockExamQuestions',
       data: {
-        category: currentCategory.value,
-        set_number: 1
+        category: currentCategory.value
       }
     })
     
-    // 加载阅读题目
-    const readingRes = await uniCloud.callFunction({
-      name: 'getReadingQuestions',
-      data: {
-        category: currentCategory.value,
-        set_number: 1
+    if (result.code === 0) {
+      examData.value = result.data
+      // 初始化用户答案
+      userAnswers.value = {
+        listening: new Array(examData.value.listening[0].answers.length -1).fill(''),
+        reading: new Array(examData.value.reading[0].answers.length).fill(''),
+        translation: '',
+        writing: ''
       }
-    })
-    
-    // 加载翻译题目
-    const translationRes = await uniCloud.callFunction({
-      name: 'getTranslationQuestions',
-      data: {
-        category: currentCategory.value,
-        set_number: 1
-      }
-    })
-    
-    // 加载写作题目
-    const writingRes = await uniCloud.callFunction({
-      name: 'getWritingQuestions',
-      data: {
-        category: currentCategory.value,
-        set_number: 1
-      }
-    })
-    
-    if (listeningRes.result.code === 0 && 
-        readingRes.result.code === 0 && 
-        translationRes.result.code === 0 && 
-        writingRes.result.code === 0) {
-      examData.value = {
-        listening: listeningRes.result.data.list[0],
-        reading: readingRes.result.data.list[0],
-        translation: translationRes.result.data.list[0],
-        writing: writingRes.result.data.list[0]
-      }
+      console.log("userAnswers.value",userAnswers.value)
     } else {
-      throw new Error('加载题目失败')
+      throw new Error(result.msg || '加载失败')
     }
   } catch (e) {
     console.error(e)
@@ -150,8 +121,103 @@ const loadExamQuestions = async () => {
  */
 const startExam = () => {
   examStatus.value = 'ongoing'
+  currentSection.value = 'listening'
+  console.log("currentCategory",currentCategory.value)
+  loadExamQuestions()
   startTimer()
-  playListeningAudio()
+}
+
+/**
+ * @description 切换考试部分
+ */
+const switchSection = (section) => {
+  if (audioContext.value) {
+    audioContext.value.pause()
+    isPlaying.value = false
+  }
+  currentSection.value = section
+  console.log("当前部分考试内容",examData.value[section][0])
+}
+
+/**
+ * @description 播放音频
+ */
+const playAudio = () => {
+  console.log("audioContext.value",audioContext.value)
+  console.log(examData.value.listening[0])
+  console.log("isPlaying.value",isPlaying.value)
+  if (!examData.value.listening[0]?.audio_file) return
+  
+  //if (audioContext.value) {
+    //audioContext.value.stop()
+  //}
+  if (!audioContext.value) {
+  audioContext.value = uni.createInnerAudioContext()
+  audioContext.value.src = examData.value.listening[0].audio_file
+  console.log(audioContext.value.src)
+
+  
+  audioContext.value.onPlay(() => {
+    isPlaying.value = true
+  })
+  
+  audioContext.value.onEnded(() => {
+    isPlaying.value = false
+  })
+
+  audioContext.value.onError(() => {
+    isPlaying.value = false
+    uni.showToast({
+      title: '音频播放失败',
+      icon: 'none'
+    })
+  })
+}
+
+  if (isPlaying.value) {
+    if(audioContext.value){ 
+      audioContext.value.pause()
+      isPlaying.value = false 
+      console.log("暂停音频")
+    }
+  } else {
+    if(audioContext.value){ 
+      audioContext.value.play()
+      isPlaying.value = true
+      console.log("播放音频")
+    }
+  }
+}
+
+/**
+ * @description 选择答案
+ */
+const selectAnswer = (section, index, answer) => {
+  if (section === 'listening' || section === 'reading') {
+    userAnswers.value[section][index] = answer
+  }
+  console.log("userAnswers.value",userAnswers.value)
+}
+
+/**
+ * @description 更新文本答案
+ */
+const updateTextAnswer = (section, value) => {
+  userAnswers.value[section] = value
+}
+
+/**
+ * @description 检查英文输入
+ */
+const checkEnglishInput = (e, section) => {
+  const text = e.detail.value
+  if (/[^\x00-\xff\s\p{P}]/u.test(text)) {
+    uni.showToast({
+      title: '请输入英文',
+      icon: 'none'
+    })
+    userAnswers.value[section] = text.replace(/[^\x00-\xff\s\p{P}]/gu, '')
+  }
 }
 
 /**
@@ -168,153 +234,108 @@ const startTimer = () => {
 }
 
 /**
- * @description 播放听力音频
- */
-const playListeningAudio = () => {
-  if (audioPlaying.value) return
-  
-  audioContext.value = uni.createInnerAudioContext()
-  audioContext.value.src = examData.value.listening.audio_file
-  audioContext.value.autoplay = true
-  
-  audioContext.value.onPlay(() => {
-    audioPlaying.value = true
-  })
-  
-  audioContext.value.onEnded(() => {
-    audioPlaying.value = false
-  })
-  
-  audioContext.value.onError(() => {
-    audioPlaying.value = false
-    uni.showToast({
-      title: '音频播放失败',
-      icon: 'none'
-    })
-  })
-}
-
-/**
- * @description 切换考试部分
- */
-const switchSection = (section) => {
-  if (section === currentSection.value) return
-  
-  // 停止音频播放
-  if (audioContext.value) {
-    audioContext.value.stop()
-    audioContext.value.destroy()
-  }
-  
-  currentSection.value = section
-}
-
-/**
- * @description 选择答案（听力/阅读）
- */
-const selectAnswer = (section, questionNumber, answer) => {
-  userAnswers.value[section][questionNumber] = answer
-}
-
-/**
- * @description 更新文本答案（翻译/写作）
- */
-const updateTextAnswer = (section, text) => {
-  userAnswers.value[section] = text
-}
-
-/**
- * @description 检查字数限制（写作）
- */
-const checkWordLimit = () => {
-  const wordCount = userAnswers.value.writing.split(/\s+/).filter(Boolean).length
-  const limit = examData.value.writing.word_limit
-  
-  return wordCount >= limit.min && wordCount <= limit.max
-}
-
-/**
  * @description 结束考试
  */
 const finishExam = async () => {
+  //检查用户作答是否完整，对于听力与阅读，需要检查每个问题的作答情况  
+  const listeningIsAnswered = userAnswers.value.listening.every(answer => answer !== '')
+  const readingIsAnswered = userAnswers.value.reading.every(answer => answer !== '')
+  const translationIsAnswered = userAnswers.value.translation !== ''
+  const writingIsAnswered = userAnswers.value.writing !== ''
+  if (!listeningIsAnswered || !readingIsAnswered || !translationIsAnswered || !writingIsAnswered) {
+    uni.showToast({
+      title: '请先作答',
+      icon: 'none'
+    })
+    return  
+  }
   clearInterval(timer)
   examStatus.value = 'finished'
+  if (audioContext.value) { 
+    audioContext.value.stop()
+    isPlaying.value = false
+  }
   
+  // 计算分数
+  // 听力部分，结果保留一位小数
+  const listeningScore = Math.round(examData.value.listening[0].answers.reduce((total, answer, index) => {
+    return total + (userAnswers.value.listening[index] === answer.content ? answer.score : 0)
+  }, 0) * 10) / 10
+  
+  
+  // 阅读部分
+  //const readingScore = examData.value.reading[0].answers.reduce((total, answer, index) => {
+    //return total + (userAnswers.value.reading[index] === answer.content ? answer.score : 0)
+  //}, 0)
+  const readingScore = Math.round(examData.value.reading[0].answers.reduce((total, answer, index) => {
+    return total + (userAnswers.value.reading[index] === answer.content ? 49.7 : 0)
+  }, 0) * 10) / 10
+  
+  // 翻译和写作部分使用模拟评分
+  const translationScore = Math.round((examData.value.translation[0].score - Math.random() * 20) * 10) / 10
+  const writingScore = Math.round((examData.value.writing[0].score - Math.random() * 20) * 10) / 10
+  
+  scores.value = {
+    listening: listeningScore,
+    reading: readingScore,
+    translation: translationScore,
+    writing: writingScore,
+    total: Math.round((listeningScore + readingScore + translationScore + writingScore) * 10) / 10
+  }
+  
+  // 保存练习记录
   try {
-    uni.showLoading({
-      title: '正在评分...'
-    })
-    
-    // 计算听力分数
-    examData.value.listening.answers.forEach(answer => {
-      if (userAnswers.value.listening[answer.key] === answer.content) {
-        scores.value.listening += answer.score
-      }
-    })
-    
-    // 计算阅读分数
-    examData.value.reading.answers.forEach(answer => {
-      if (userAnswers.value.reading[answer.question_number] === answer.correct_answer) {
-        scores.value.reading += answer.score
-      }
-    })
-    
-    // 翻译和写作使用模拟评分
-    scores.value.translation = Math.round((examData.value.translation.score - Math.random() * 5) * 10) / 10
-    scores.value.writing = Math.round((examData.value.writing.score - Math.random() * 10) * 10) / 10
-    
-    // 计算总分
-    scores.value.total = Math.round((
-      scores.value.listening + 
-      scores.value.reading + 
-      scores.value.translation + 
-      scores.value.writing
-    ) * 10) / 10
-    
-    // 保存考试记录
     await uniCloud.callFunction({
       name: 'saveAndUpdatePracticeRecord',
       data: {
         userId: uni.getStorageSync('userInfo')._id,
-        question_id: examData.value.listening._id, // 使用听力题目ID作为考试ID
-        question_type: 'mock',
-        correctCount: 0, // 模拟考试不计算正确题目数
-        correctRate: 0, // 模拟考试不计算正确率
-        userScore: scores.value.total
+        practice_type: 'mock',
+        category: currentCategory.value,
+        scores: scores.value,
+        duration: EXAM_TIME * 60 - remainingTime.value
       }
     })
   } catch (e) {
-    console.error(e)
-    uni.showToast({
-      title: '评分失败',
-      icon: 'none'
-    })
-  } finally {
-    uni.hideLoading()
+    console.error('保存练习记录失败:', e)
   }
+  
+  
+  
 }
 
 /**
  * @description 重新开始
  */
 const restart = () => {
-  examStatus.value = 'ready'
-  remainingTime.value = EXAM_TIME * 60
-  currentSection.value = 'listening'
-  userAnswers.value = {
-    listening: {},
-    reading: {},
-    translation: '',
-    writing: ''
-  }
-  scores.value = {
-    listening: 0,
-    reading: 0,
-    translation: 0,
-    writing: 0,
-    total: 0
-  }
-  loadExamQuestions()
+  uni.showModal({
+    title: '提示',
+    content: '确定要重新开始考试吗？',
+    success: (res) => {
+      if (res.confirm) {
+        if (audioContext.value) {
+          audioContext.value.stop()
+          audioContext.value.destroy()
+          isPlaying.value = false
+        }
+        examStatus.value = 'ready'
+        remainingTime.value = EXAM_TIME * 60
+        userAnswers.value = {
+          listening: [],
+          reading: [],
+          translation: '',
+          writing: ''
+        }
+        scores.value = {
+          listening: 0,
+          reading: 0,
+          translation: 0,
+          writing: 0,
+          total: 0
+        }
+        loadExamQuestions()
+      }
+    }
+  })
 }
 
 /**
@@ -323,8 +344,8 @@ const restart = () => {
 const formatTime = (seconds) => {
   const hours = Math.floor(seconds / 3600)
   const minutes = Math.floor((seconds % 3600) / 60)
-  const remainingSeconds = seconds % 60
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
+  const secs = seconds % 60
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
 }
 
 onMounted(() => {
@@ -341,16 +362,28 @@ onMounted(() => {
     loadExamQuestions()
   }
 })
+
+onUnmounted(() => {
+  if (timer) {
+    clearInterval(timer)
+  }
+  if (audioContext.value) {
+    isPlaying.value = false
+    audioContext.value.stop()
+    audioContext.value.destroy()
+    console.log("卸载音频")
+  }
+})
 </script>
 
 <template>
   <view class="container">
-    <!-- 准备开始 -->
-    <view class="ready-card" v-if="examStatus === 'ready'">
+    <!-- 考试准备页 -->
+    <view v-if="examStatus === 'ready'" class="exam-ready">
       <view class="category-selector">
-        <view 
-          class="category-item" 
-          v-for="item in categoryOptions" 
+        <view
+          class="category-item"
+          v-for="item in categoryOptions"
           :key="item.value"
           :class="{ active: currentCategory === item.value }"
           @tap="currentCategory = item.value"
@@ -360,50 +393,35 @@ onMounted(() => {
       </view>
       
       <view class="exam-info">
-        <text class="title">模拟考试</text>
         <view class="info-item">
           <text class="label">考试时长：</text>
           <text class="value">{{ EXAM_TIME }}分钟</text>
         </view>
         <view class="info-item">
+          <text class="label">试卷结构：</text>
+          <text class="value">听力、阅读、翻译、写作</text>
+        </view>
+        <view class="info-item">
           <text class="label">总分：</text>
           <text class="value">710分</text>
         </view>
-        <view class="section-list">
-          <view class="section-item">
-            <text class="section-name">听力</text>
-            <text class="section-score">249分</text>
-          </view>
-          <view class="section-item">
-            <text class="section-name">阅读</text>
-            <text class="section-score">249分</text>
-          </view>
-          <view class="section-item">
-            <text class="section-name">翻译</text>
-            <text class="section-score">106.5分</text>
-          </view>
-          <view class="section-item">
-            <text class="section-name">写作</text>
-            <text class="section-score">106.5分</text>
-          </view>
-        </view>
       </view>
       
-      <button class="btn primary" @tap="startExam">开始考试</button>
+      <button class="start-btn" @tap="startExam">开始考试</button>
     </view>
     
-    <!-- 考试中 -->
-    <view class="exam-content" v-else-if="examStatus === 'ongoing'">
-      <!-- 顶部状态栏 -->
-      <view class="exam-header">
-        <text class="timer">剩余时间：{{ formatTime(remainingTime) }}</text>
+    <!-- 考试进行中 -->
+    <view v-else-if="examStatus === 'ongoing'" class="exam-ongoing">
+      <!-- 顶部导航 -->
+      <view class="exam-nav">
+        <view class="timer">剩余时间：{{ formatTime(remainingTime) }}</view>
         <view class="section-tabs">
-          <view 
+          <view
             class="tab-item"
-            v-for="(label, section) in { listening: '听力', reading: '阅读', translation: '翻译', writing: '写作' }"
-            :key="section"
-            :class="{ active: currentSection === section }"
-            @tap="switchSection(section)"
+            v-for="(label, key) in { listening: '听力', reading: '阅读', translation: '翻译', writing: '写作' }"
+            :key="key"
+            :class="{ active: currentSection === key }"
+            @tap="switchSection(key)"
           >
             {{ label }}
           </view>
@@ -411,33 +429,38 @@ onMounted(() => {
       </view>
       
       <!-- 听力部分 -->
-      <scroll-view 
-        class="section-content" 
-        scroll-y 
-        v-if="currentSection === 'listening' && examData.listening"
+      <scroll-view
+        v-if="currentSection === 'listening' && examData.listening.length > 0"
+        class="exam-content"
+        scroll-y
       >
-        <view class="listening-section">
-          <view 
-            class="question-group" 
-            v-for="(section, index) in examData.listening.question_content" 
-            :key="index"
+        <view class="audio-player" @tap="playAudio">
+          <text class="iconfont">{{ isPlaying ? '暂停' : '播放' }}</text>
+        </view>
+        
+        <view
+          class="question-section"
+          v-for="(section, sectionIndex) in examData.listening[0].question_content"
+          :key="sectionIndex"
+        >
+          <text class="section-name">{{ section.section_name }}</text>
+          <text class="section-desc">{{ section.description }}</text>
+          
+          <view
+            class="question-item"
+            v-for="(question, questionIndex) in section.questions"
+            :key="questionIndex"
           >
-            <text class="section-title">{{ section.section_name }}</text>
-            <text class="section-desc">{{ section.description }}</text>
-            
-            <view 
-              class="question-item" 
-              v-for="question in section.questions" 
-              :key="question.description1"
-            >
-              <text class="question-title">{{ question.description1 }}</text>
-              <view class="options">
-                <view 
-                  class="option-item"
-                  v-for="(content, key) in question.options.content"
+            <text class="question-text">{{ question.description1 }}</text>
+            <view class="options">
+              <view class="option-item" v-for="(option, key) in question.options" :key="option.tips"> 
+                <text class="option-number">Question {{ option.tips }}</text>
+                <view
+                  class="option-choice"
+                  v-for="(content, key) in option.content"
                   :key="key"
-                  :class="{ active: userAnswers.listening[question.tips] === key }"
-                  @tap="selectAnswer('listening', question.tips, key)"
+                  :class="{ active: userAnswers.listening[option.tips -1] === key }"
+                  @tap="selectAnswer('listening', option.tips -1, key)"
                 >
                   <text class="option-key">{{ key }}</text>
                   <text class="option-content">{{ content }}</text>
@@ -449,52 +472,49 @@ onMounted(() => {
       </scroll-view>
       
       <!-- 阅读部分 -->
-      <scroll-view 
-        class="section-content" 
-        scroll-y 
-        v-if="currentSection === 'reading' && examData.reading"
+      <scroll-view
+        v-if="currentSection === 'reading' && examData.reading.length > 0"
+        class="exam-content"
+        scroll-y
       >
-        <view class="reading-section">
-          <view class="passage">
-            <text class="passage-title">{{ examData.reading.little_title }}</text>
-            <text class="passage-content">{{ examData.reading.passage }}</text>
-          </view>
-          
-          <view class="questions">
-            <view 
-              class="question-item"
-              v-for="question in examData.reading.questions"
-              :key="question.question_number"
+        <view class="reading-passage">
+          <text class="passage-title">{{ examData.reading[0].little_title }}</text>
+          <text class="passage-content">{{ examData.reading[0].passage }}</text>
+        </view>
+        
+        <view
+          class="question-item"
+          v-for="(question, index) in examData.reading[0].questions"
+          :key="index"
+        >
+          <text class="question-number">Question {{ question.question_number }}</text>
+          <text class="question-text">{{ question.question }}</text>
+          <view class="options">
+            <view
+              class="option-choice"
+              v-for="(content, key) in question.options"
+              :key="key"
+              :class="{ active: userAnswers.reading[index] === key }"
+              @tap="selectAnswer('reading', index, key)"
             >
-              <text class="question-title">{{ question.question_number }}. {{ question.question }}</text>
-              <view class="options">
-                <view 
-                  class="option-item"
-                  v-for="(content, key) in question.options"
-                  :key="key"
-                  :class="{ active: userAnswers.reading[question.question_number] === key }"
-                  @tap="selectAnswer('reading', question.question_number, key)"
-                >
-                  <text class="option-key">{{ key }}</text>
-                  <text class="option-content">{{ content }}</text>
-                </view>
-              </view>
+              <text class="option-key">{{ key }}</text>
+              <text class="option-content">{{ content }}</text>
             </view>
           </view>
         </view>
       </scroll-view>
       
       <!-- 翻译部分 -->
-      <scroll-view 
-        class="section-content" 
-        scroll-y 
-        v-if="currentSection === 'translation' && examData.translation"
+      <scroll-view
+        v-if="currentSection === 'translation' && examData.translation.length > 0"
+        class="exam-content"
+        scroll-y
       >
-        <view class="translation-section">
-          <text class="section-title">{{ examData.translation.little_title }}</text>
+        <view class="translation-content">
+          <text class="section-title">{{ examData.translation[0].little_title }}</text>
           <view class="original-text">
             <text class="text-label">原文：</text>
-            <text class="text-content">{{ examData.translation.original_text }}</text>
+            <text class="text-content">{{ examData.translation[0].original_text }}</text>
           </view>
           
           <view class="translation-area">
@@ -503,6 +523,7 @@ onMounted(() => {
               class="translation-input"
               v-model="userAnswers.translation"
               placeholder="请输入英文翻译..."
+              @blur="checkEnglishInput($event, 'translation')"
               maxlength="-1"
             />
           </view>
@@ -510,74 +531,60 @@ onMounted(() => {
       </scroll-view>
       
       <!-- 写作部分 -->
-      <scroll-view 
-        class="section-content" 
-        scroll-y 
-        v-if="currentSection === 'writing' && examData.writing"
+      <scroll-view
+        v-if="currentSection === 'writing' && examData.writing.length > 0"
+        class="exam-content"
+        scroll-y
       >
-        <view class="writing-section">
-          <text class="section-title">{{ examData.writing.little_title }}</text>
-          <view class="writing-info">
-            <text class="writing-title">{{ examData.writing.title }}</text>
-            <text class="word-limit">
-              字数要求：{{ examData.writing.word_limit.min }}-{{ examData.writing.word_limit.max }}
-            </text>
+        <view class="writing-content">
+          <text class="section-title">{{ examData.writing[0].little_title }}</text>
+          <text class="writing-title">{{ examData.writing[0].title }}</text>
+          
+          <view class="word-limit">
+            字数要求：{{ examData.writing[0].word_limit.min }}-{{ examData.writing[0].word_limit.max }}词
           </view>
           
           <textarea
             class="writing-input"
             v-model="userAnswers.writing"
-            placeholder="请输入作文内容..."
+            placeholder="请用英文写作..."
+            @blur="checkEnglishInput($event, 'writing')"
             maxlength="-1"
           />
         </view>
       </scroll-view>
       
-      <!-- 底部按钮 -->
+      <!-- 底部控制栏 -->
       <view class="exam-footer">
-        <button 
-          class="btn primary" 
-          @tap="finishExam"
-          :disabled="!userAnswers.writing && currentSection === 'writing'"
-        >
-          交卷
-        </button>
+        <button class="submit-btn" @tap="finishExam">结束考试</button>
       </view>
     </view>
     
-    <!-- 考试结束 -->
-    <view class="result-card" v-else>
-      <view class="result-title">考试结束</view>
-      <view class="result-info">
-        <view class="total-score">
-          <text class="score-label">总分</text>
-          <text class="score-value">{{ scores.total }}</text>
-        </view>
-        
-        <view class="section-scores">
+    <!-- 考试结束页 -->
+    <view v-else class="exam-finished">
+      <view class="score-summary">
+        <text class="total-score">总分：{{ scores.total }}</text>
+        <view class="score-details">
           <view class="score-item">
-            <text class="section-name">听力</text>
-            <text class="section-score">{{ scores.listening }}</text>
+            <text class="label">听力：</text>
+            <text class="value">{{ scores.listening }}</text>
           </view>
           <view class="score-item">
-            <text class="section-name">阅读</text>
-            <text class="section-score">{{ scores.reading }}</text>
+            <text class="label">阅读：</text>
+            <text class="value">{{ scores.reading }}</text>
           </view>
           <view class="score-item">
-            <text class="section-name">翻译</text>
-            <text class="section-score">{{ scores.translation }}</text>
+            <text class="label">翻译：</text>
+            <text class="value">{{ scores.translation }}</text>
           </view>
           <view class="score-item">
-            <text class="section-name">写作</text>
-            <text class="section-score">{{ scores.writing }}</text>
+            <text class="label">写作：</text>
+            <text class="value">{{ scores.writing }}</text>
           </view>
         </view>
       </view>
       
-      <view class="result-actions">
-        <button class="btn" @tap="restart">重新开始</button>
-        <button class="btn primary" @tap="switchSection('listening')">查看详情</button>
-      </view>
+      <button class="restart-btn" @tap="restart">重新开始</button>
     </view>
   </view>
 </template>
@@ -589,8 +596,8 @@ onMounted(() => {
   min-height: 100vh;
 }
 
-.ready-card,
-.result-card {
+/* 考试准备页样式 */
+.exam-ready {
   background-color: #fff;
   border-radius: 20rpx;
   padding: 40rpx;
@@ -598,13 +605,12 @@ onMounted(() => {
 
 .category-selector {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin-bottom: 40rpx;
 }
 
 .category-item {
   padding: 20rpx 40rpx;
-  margin: 0 20rpx;
   border-radius: 10rpx;
   font-size: 28rpx;
   color: #666;
@@ -617,62 +623,38 @@ onMounted(() => {
 }
 
 .exam-info {
-  text-align: center;
   margin-bottom: 40rpx;
 }
 
-.title {
-  font-size: 36rpx;
-  font-weight: bold;
-  margin-bottom: 30rpx;
-  display: block;
-}
-
 .info-item {
-  margin-bottom: 20rpx;
-}
-
-.label {
-  color: #666;
-  font-size: 28rpx;
-}
-
-.value {
-  color: #333;
-  font-size: 28rpx;
-  font-weight: bold;
-}
-
-.section-list {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 30rpx;
-}
-
-.section-item {
-  width: 45%;
-  background-color: #f8f8f8;
-  padding: 20rpx;
-  border-radius: 10rpx;
   margin-bottom: 20rpx;
 }
 
-.section-name {
+.info-item .label {
+  width: 160rpx;
   font-size: 28rpx;
   color: #666;
-  display: block;
 }
 
-.section-score {
-  font-size: 32rpx;
+.info-item .value {
+  flex: 1;
+  font-size: 28rpx;
   color: #333;
-  font-weight: bold;
-  display: block;
-  margin-top: 10rpx;
 }
 
-.exam-header {
+.start-btn {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #4095E5;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+}
+
+/* 考试进行中样式 */
+.exam-nav {
   background-color: #fff;
   padding: 20rpx;
   border-radius: 20rpx;
@@ -680,58 +662,57 @@ onMounted(() => {
 }
 
 .timer {
-  font-size: 28rpx;
-  color: #666;
+  text-align: center;
+  font-size: 32rpx;
+  color: #4095E5;
   margin-bottom: 20rpx;
-  display: block;
 }
 
 .section-tabs {
   display: flex;
   justify-content: space-around;
-  border-bottom: 1px solid #eee;
 }
 
 .tab-item {
-  padding: 20rpx 0;
+  padding: 10rpx 30rpx;
   font-size: 28rpx;
   color: #666;
-  position: relative;
+  border-radius: 30rpx;
 }
 
 .tab-item.active {
-  color: #4095E5;
-}
-
-.tab-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: -2rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40rpx;
-  height: 4rpx;
   background-color: #4095E5;
+  color: #fff;
 }
 
-.section-content {
+.exam-content {
   background-color: #fff;
   border-radius: 20rpx;
   padding: 30rpx;
-  margin-bottom: 120rpx;
+  margin-bottom: 100rpx;
   height: calc(100vh - 300rpx);
 }
 
-.listening-section,
-.reading-section,
-.translation-section,
-.writing-section {
-  padding-bottom: 40rpx;
+.audio-player {
+  width: 100rpx;
+  height: 100rpx;
+  background-color: #4095E5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30rpx;
 }
 
-.section-title {
+.audio-player .iconfont {
+  color: #fff;
+  font-size: 40rpx;
+}
+
+.section-name {
   font-size: 32rpx;
   font-weight: bold;
+  color: #333;
   margin-bottom: 20rpx;
   display: block;
 }
@@ -747,7 +728,7 @@ onMounted(() => {
   margin-bottom: 40rpx;
 }
 
-.question-title {
+.question-text {
   font-size: 28rpx;
   color: #333;
   margin-bottom: 20rpx;
@@ -755,10 +736,10 @@ onMounted(() => {
 }
 
 .options {
-  margin-left: 40rpx;
+  padding-left: 20rpx;
 }
 
-.option-item {
+.option-choice {
   display: flex;
   align-items: flex-start;
   padding: 20rpx;
@@ -767,13 +748,9 @@ onMounted(() => {
   margin-bottom: 20rpx;
 }
 
-.option-item.active {
-  background-color: #4095E5;
+.option-choice.active {
+  background-color: rgba(64, 149, 229, 0.1);
   border-color: #4095E5;
-}
-
-.option-item.active text {
-  color: #fff;
 }
 
 .option-key {
@@ -786,16 +763,19 @@ onMounted(() => {
   flex: 1;
   font-size: 28rpx;
   color: #333;
-  line-height: 1.5;
 }
 
-.passage {
+.reading-passage {
   margin-bottom: 40rpx;
+  padding: 30rpx;
+  background-color: #f9f9f9;
+  border-radius: 10rpx;
 }
 
 .passage-title {
   font-size: 32rpx;
   font-weight: bold;
+  color: #333;
   margin-bottom: 20rpx;
   display: block;
 }
@@ -804,12 +784,11 @@ onMounted(() => {
   font-size: 28rpx;
   color: #333;
   line-height: 1.8;
-  display: block;
 }
 
-.translation-area,
-.writing-info {
-  margin-bottom: 30rpx;
+.translation-content,
+.writing-content {
+  padding: 30rpx;
 }
 
 .text-label {
@@ -823,99 +802,112 @@ onMounted(() => {
   font-size: 28rpx;
   color: #333;
   line-height: 1.8;
-  display: block;
   margin-bottom: 30rpx;
+  display: block;
 }
 
 .translation-input,
 .writing-input {
   width: 100%;
   height: 400rpx;
-  background-color: #f8f8f8;
-  border-radius: 10rpx;
   padding: 20rpx;
   font-size: 28rpx;
   line-height: 1.8;
-}
-
-.writing-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  margin-bottom: 20rpx;
-  display: block;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 10rpx;
+  box-sizing: border-box;
 }
 
 .word-limit {
   font-size: 24rpx;
   color: #666;
+  margin: 20rpx 0;
 }
-
+.option-number {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10rpx;
+}
 .exam-footer {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   background-color: #fff;
-  padding: 20rpx 30rpx;
-  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+  padding: 20rpx;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
 
-.result-title {
-  font-size: 36rpx;
-  font-weight: bold;
+.submit-btn {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #4095E5;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+}
+
+/* 考试结束页样式 */
+.exam-finished {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+}
+.option-item {
+  margin-bottom: 30rpx;
+}
+.score-summary {
   text-align: center;
   margin-bottom: 40rpx;
 }
 
 .total-score {
-  text-align: center;
-  margin-bottom: 40rpx;
-}
-
-.score-label {
-  font-size: 28rpx;
-  color: #666;
-  display: block;
-  margin-bottom: 10rpx;
-}
-
-.score-value {
-  font-size: 64rpx;
+  font-size: 48rpx;
   color: #4095E5;
   font-weight: bold;
+  margin-bottom: 30rpx;
+  display: block;
 }
 
-.section-scores {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.score-details {
+  background-color: #f9f9f9;
+  border-radius: 10rpx;
+  padding: 30rpx;
 }
 
 .score-item {
-  width: 45%;
-  text-align: center;
-  background-color: #f8f8f8;
-  padding: 20rpx;
-  border-radius: 10rpx;
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20rpx;
 }
 
-.result-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40rpx;
+.score-item:last-child {
+  margin-bottom: 0;
 }
 
-.btn {
-  width: 45%;
+.score-item .label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.score-item .value {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.restart-btn {
+  width: 100%;
   height: 80rpx;
   line-height: 80rpx;
-  font-size: 28rpx;
-  margin: 0;
-}
-
-.btn.primary {
   background-color: #4095E5;
   color: #fff;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  margin-top: 40rpx;
 }
 </style> 

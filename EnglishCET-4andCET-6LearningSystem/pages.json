@@ -83,7 +83,31 @@
 			"style": {
 				"navigationBarTitleText": "翻译练习"
 			}
-		}
+		},
+		{
+			"path": "pages/mine/learning-records/learning-records",
+			"style": {
+				"navigationBarTitleText": "学习记录"
+			}
+		},
+		{
+			"path": "pages/mine/favorites/favorites",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
+		},
+		{
+			"path": "pages/mine/study-plan/study-plan",
+			"style": {
+				"navigationBarTitleText": "学习计划"
+			}
+		},
+		{
+			"path": "pages/mine/settings/settings",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		}	
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

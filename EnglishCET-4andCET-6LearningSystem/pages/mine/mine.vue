@@ -25,25 +25,25 @@ const menuList = ref([
     id: 1,
     title: '学习记录',
     icon: '/static/icons/record.png',
-    path: '/pages/mine/study-record'
+    path: '/pages/mine/learning-records/learning-records'
   },
   {
     id: 2,
     title: '我的收藏',
     icon: '/static/icons/favorite.png',
-    path: '/pages/mine/favorites'
+    path: '/pages/mine/favorites/favorites'
   },
   {
     id: 3,
     title: '学习计划',
     icon: '/static/icons/plan.png',
-    path: '/pages/mine/study-plan'
+    path: '/pages/mine/study-plan/study-plan'
   },
   {
     id: 4,
     title: '设置',
     icon: '/static/icons/settings.png',
-    path: '/pages/mine/settings'
+    path: '/pages/mine/settings/settings'
   }
 ])
 

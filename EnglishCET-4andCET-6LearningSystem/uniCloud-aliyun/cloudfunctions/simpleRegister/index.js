@@ -26,13 +26,13 @@ exports.main = async (event, context) => {
     
     if (total > 0 ) {
       return {
-        code: -1,
+        code: -2,
         msg: '手机号已存在'
       }
     }
     if (nicknameTotal > 0) {
       return {
-        code: -1,
+        code: -3,
         msg: '昵称已存在'
       }
     }   
@@ -47,7 +47,7 @@ exports.main = async (event, context) => {
         points: 0,
         study_days: 0,
         level: '英语小白',
-        create_time: Date.now()
+        create_time: new Date()
       })
     
     return {

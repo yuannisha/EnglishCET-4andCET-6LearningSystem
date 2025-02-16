@@ -408,6 +408,9 @@
             "score": 14.2
         }
     ],
+    "question_type": "mock",
+    "year": "2019",
+    "month": "12",
     "audio_file": "static/audios/cet620101302_0309819agp.mp3",
     "last_practice_time": "2025-01-01 12:00:00"
 },
@@ -826,6 +829,9 @@
             "score": 14.2
         }
     ],
+    "question_type": "mock",
+    "year": "2019",
+    "month": "12",
     "audio_file": "static/audios/cet4191202_2217963vHB.mp3",
     "last_practice_time": "2025-01-01 12:00:00"
 }

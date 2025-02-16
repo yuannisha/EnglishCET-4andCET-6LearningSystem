@@ -148,10 +148,27 @@ const _sfc_main = {
         icon: "success"
       });
     };
+    const updateUserLevel = async (userId, totalLearned, level) => {
+      const { result } = await common_vendor.er.callFunction({
+        name: "updateUserInfo",
+        data: {
+          userId,
+          totalLearned,
+          level
+        }
+      });
+      if (result.code === 0) {
+        common_vendor.index.showModal({
+          title: `恭喜你已经掌握了${totalLearned}个单词,你的等级已经提升为${level}！`,
+          icon: "success",
+          duration: 4e3
+        });
+      }
+    };
     const updateWordProgress = async (status) => {
       try {
         const currentWord = wordList.value[currentIndex.value];
-        await common_vendor.er.callFunction({
+        const { result } = await common_vendor.er.callFunction({
           name: "updateWordProgress",
           data: {
             user_id: common_vendor.index.getStorageSync("userInfo")._id,
@@ -159,6 +176,66 @@ const _sfc_main = {
             status
           }
         });
+        common_vendor.index.__f__("log", "at pages/words/words.vue:265", "result", result);
+        common_vendor.index.__f__("log", "at pages/words/words.vue:266", "status", status);
+        common_vendor.index.__f__("log", "at pages/words/words.vue:267", "result.totalLearned.total", result.totalLearned.total);
+        if (result.code === 0 && status === "learned" && result.totalLearned.total > 0) {
+          common_vendor.index.setStorageSync("userInfo", {
+            ...common_vendor.index.getStorageSync("userInfo"),
+            points: result.totalLearned.total
+          });
+          common_vendor.index.__f__("log", "at pages/words/words.vue:274", "uni.getStorageSync('userInfo')", common_vendor.index.getStorageSync("userInfo"));
+          if (common_vendor.index.getStorageSync("userInfo").points > 2 && common_vendor.index.getStorageSync("userInfo").points <= 4) {
+            if (common_vendor.index.getStorageSync("userInfo").level === "英语小白") {
+              common_vendor.index.setStorageSync("userInfo", {
+                ...common_vendor.index.getStorageSync("userInfo"),
+                level: "英语初学者"
+              });
+              common_vendor.index.__f__("log", "at pages/words/words.vue:281", "uni.getStorageSync('userInfo,更新等级')", common_vendor.index.getStorageSync("userInfo"));
+              updateUserLevel(common_vendor.index.getStorageSync("userInfo")._id, result.totalLearned.total, "英语初学者");
+            }
+          } else if (common_vendor.index.getStorageSync("userInfo").points > 4 && common_vendor.index.getStorageSync("userInfo").points <= 6) {
+            if (common_vendor.index.getStorageSync("userInfo").level === "英语初学者") {
+              common_vendor.index.setStorageSync("userInfo", {
+                ...common_vendor.index.getStorageSync("userInfo"),
+                level: "英语入门"
+              });
+            }
+            updateUserLevel(common_vendor.index.getStorageSync("userInfo")._id, result.totalLearned.total, "英语入门");
+          } else if (common_vendor.index.getStorageSync("userInfo").points > 6 && common_vendor.index.getStorageSync("userInfo").points <= 8) {
+            if (common_vendor.index.getStorageSync("userInfo").level === "英语入门") {
+              common_vendor.index.setStorageSync("userInfo", {
+                ...common_vendor.index.getStorageSync("userInfo"),
+                level: "英语进阶"
+              });
+            }
+            updateUserLevel(common_vendor.index.getStorageSync("userInfo")._id, result.totalLearned.total, "英语进阶");
+          } else if (common_vendor.index.getStorageSync("userInfo").points > 8 && common_vendor.index.getStorageSync("userInfo").points <= 10) {
+            if (common_vendor.index.getStorageSync("userInfo").level === "英语进阶") {
+              common_vendor.index.setStorageSync("userInfo", {
+                ...common_vendor.index.getStorageSync("userInfo"),
+                level: "英语高手"
+              });
+            }
+            updateUserLevel(common_vendor.index.getStorageSync("userInfo")._id, result.totalLearned.total, "英语高手");
+          } else if (common_vendor.index.getStorageSync("userInfo").points > 10 && common_vendor.index.getStorageSync("userInfo").points <= 12) {
+            if (common_vendor.index.getStorageSync("userInfo").level === "英语高手") {
+              common_vendor.index.setStorageSync("userInfo", {
+                ...common_vendor.index.getStorageSync("userInfo"),
+                level: "英语大师"
+              });
+            }
+            updateUserLevel(common_vendor.index.getStorageSync("userInfo")._id, result.totalLearned.total, "英语大师");
+          } else if (common_vendor.index.getStorageSync("userInfo").points > 12) {
+            if (common_vendor.index.getStorageSync("userInfo").level === "英语大师") {
+              common_vendor.index.setStorageSync("userInfo", {
+                ...common_vendor.index.getStorageSync("userInfo"),
+                level: "英语王者"
+              });
+            }
+            updateUserLevel(common_vendor.index.getStorageSync("userInfo")._id, result.totalLearned.total, "英语王者");
+          }
+        }
         currentWord.status = status;
         wordStatus.value = status;
         progressStats.value = {
@@ -168,7 +245,7 @@ const _sfc_main = {
           new: wordList.value.filter((w) => w.status === "new").length
         };
       } catch (e) {
-        common_vendor.index.__f__("error", "at pages/words/words.vue:260", "更新进度失败", e);
+        common_vendor.index.__f__("error", "at pages/words/words.vue:340", "更新进度失败", e);
         common_vendor.index.showToast({
           title: "更新进度失败",
           icon: "none"

@@ -35,7 +35,7 @@
       "bsonType": "string",
       "description": "用户等级",
       "title": "等级",
-      "defaultValue": "英语小白"
+      "defaultValue": "英语小白,英语初学者,英语入门,英语进阶,英语高手,英语大师,英语王者"
     },
     "study_days": {
       "bsonType": "int",
@@ -45,7 +45,7 @@
     },
     "points": {
       "bsonType": "int",
-      "description": "积分",
+      "description": "已掌握单词数",
       "minimum": 0,
       "defaultValue": 0
     },

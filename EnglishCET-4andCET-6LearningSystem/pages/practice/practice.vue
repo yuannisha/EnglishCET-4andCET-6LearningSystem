@@ -18,15 +18,12 @@ const practiceTypes = ref([
     desc: '历年四六级真题训练',
     icon: '/static/icons/real-exam.png',
     path: '/pages/practice/real-exam/real-exam'
-  },
-  {
-    id: 3,
-    title: '错题集',
-    desc: '记录并复习错题',
-    icon: '/static/icons/wrong-questions.png',
-    path: '/pages/practice/wrong-questions/wrong-questions'
   }
 ])
+
+const hasStudyDays = ref({
+  days: uni.getStorageSync('userInfo').study_days
+})
 
 /**
  * @description 统计数据
@@ -53,11 +50,14 @@ const navigateToPage = (path) => {
 const loadStatistics = async () => {
   try {
     const { result } = await uniCloud.callFunction({
-      name: 'getUserStatistics'
+      name: 'getUserStatistics',
+      data: {
+        user_id: uni.getStorageSync('userInfo')._id
+      } 
     })
     
     if (result.code === 0) {
-      statistics.value = result.data
+      statistics.value = result.data.practice_record
     }
   } catch (e) {
     console.error('获取统计数据失败', e)
@@ -90,16 +90,12 @@ onMounted(() => {
     <!-- 顶部统计区域 -->
     <view class="statistics">
       <view class="stat-item">
-        <text class="stat-num">{{ statistics.todayQuestions }}</text>
-        <text class="stat-label">今日练习题</text>
+        <text class="stat-num">{{ statistics.total >0 ? statistics.total : 0 }}</text>
+        <text class="stat-label">截止今日已练习题数</text>
       </view>
       <view class="stat-item">
-        <text class="stat-num">{{ statistics.correctRate }}%</text>
-        <text class="stat-label">正确率</text>
-      </view>
-      <view class="stat-item">
-        <text class="stat-num">{{ statistics.studyDays }}</text>
-        <text class="stat-label">连续打卡</text>
+        <text class="stat-num">{{ hasStudyDays.days }}</text>
+        <text class="stat-label">已学习天数</text>
       </view>
     </view>
     

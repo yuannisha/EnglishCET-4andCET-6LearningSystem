@@ -9,9 +9,9 @@
  */
 exports.main = async (event, context) => {
 	const db = uniCloud.database()
-	const { OPENID } = context
+	const { user_id } = event
 	
-	if (!OPENID) {
+	if (!user_id) {
 		return {
 			code: -1,
 			msg: '用户未登录'
@@ -24,10 +24,19 @@ exports.main = async (event, context) => {
 		
 		// 构建查询条件
 		const where = {
-			user_id: OPENID
+			user_id: user_id
 		}
 		if (practice_type) {
-			where.practice_type = practice_type
+			if(practice_type === 'real'){
+				where.$or = [
+					{practice_type: 'real_listening'},
+					{practice_type: 'real_reading'},
+					{practice_type: 'real_translation'},
+					{practice_type: 'real_writing'}
+				]
+			}else{
+				where.practice_type = practice_type
+			}
 		}
 		
 		// 查询练习记录

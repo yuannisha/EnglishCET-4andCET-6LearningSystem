@@ -35,7 +35,7 @@ exports.main = async (event, context) => {
 				.update({
 					status: status,
 					review_times: db.command.inc(1),
-					last_review_date: Date.now()
+					last_review_date: new Date()
 				})
 		} else {
 			// 创建新记录
@@ -45,14 +45,35 @@ exports.main = async (event, context) => {
 					word_id: word_id,
 					status: status,
 					review_times: 1,
-					last_review_date: Date.now(),
-					create_date: Date.now()
+					last_review_date: new Date(),
+					create_date: new Date()
 				})
 		}
+		let totalLearned = null
+		if(status === 'learned'){
+		// 查询用户已掌握单词数
+		 totalLearned = await db.collection('user_word_progress')
+			.where({
+				user_id: user_id,
+				status: 'learned'
+			})
+			.count()
+		console.log("totalLearned",totalLearned)
+			await db.collection('users')
+			.where({
+				_id: user_id
+			})
+			.update({
+				points: totalLearned.total
+			})
+		}
+
+		
 		
 		return {
 			code: 0,
-			msg: 'success'
+			msg: 'success',
+			totalLearned: totalLearned
 		}
 	} catch (e) {
 		return {

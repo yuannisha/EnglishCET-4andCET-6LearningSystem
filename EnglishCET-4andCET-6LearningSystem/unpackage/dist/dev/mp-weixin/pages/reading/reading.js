@@ -30,6 +30,7 @@ const _sfc_main = {
             set_number: currentSet.value
           }
         });
+        common_vendor.index.__f__("log", "at pages/reading/reading.vue:84", "result", result);
         if (result.code === 0) {
           questionList.value = result.data.list;
           totalSets.value = result.data.total_sets.total;
@@ -44,7 +45,7 @@ const _sfc_main = {
           });
         }
       } catch (e) {
-        common_vendor.index.__f__("error", "at pages/reading/reading.vue:101", "加载题目失败:", e);
+        common_vendor.index.__f__("error", "at pages/reading/reading.vue:102", "加载题目失败:", e);
         common_vendor.index.showToast({
           title: "加载失败",
           icon: "none"
@@ -113,24 +114,24 @@ const _sfc_main = {
       }
       try {
         questionList.value[0].answers.forEach((answer, index) => {
-          if (userAnswers.value[`${index + 1}`] === answer.correct_answer) {
+          if (userAnswers.value[`${index + 1}`] === answer.content) {
             userScore.value += answer.score;
             correctCount.value++;
           }
         });
         correctRate.value = Math.round(correctCount.value / questionList.value[0].questions.length * 100);
         const user_id = common_vendor.index.getStorageSync("userInfo")._id;
-        common_vendor.index.__f__("log", "at pages/reading/reading.vue:209", "user_id", user_id);
-        common_vendor.index.__f__("log", "at pages/reading/reading.vue:210", "questionId.value", questionId.value);
-        common_vendor.index.__f__("log", "at pages/reading/reading.vue:211", "correctCount.value", correctCount.value);
-        common_vendor.index.__f__("log", "at pages/reading/reading.vue:212", "correctRate.value", correctRate.value);
-        common_vendor.index.__f__("log", "at pages/reading/reading.vue:213", "userScore.value", userScore.value);
+        common_vendor.index.__f__("log", "at pages/reading/reading.vue:210", "user_id", user_id);
+        common_vendor.index.__f__("log", "at pages/reading/reading.vue:211", "questionId.value", questionId.value);
+        common_vendor.index.__f__("log", "at pages/reading/reading.vue:212", "correctCount.value", correctCount.value);
+        common_vendor.index.__f__("log", "at pages/reading/reading.vue:213", "correctRate.value", correctRate.value);
+        common_vendor.index.__f__("log", "at pages/reading/reading.vue:214", "userScore.value", userScore.value);
         await common_vendor.er.callFunction({
           name: "saveAndUpdatePracticeRecord",
           data: {
             userId: user_id,
             question_id: questionId.value,
-            question_type: "reading",
+            practice_type: "reading",
             correctCount: correctCount.value,
             correctRate: correctRate.value,
             userScore: userScore.value
@@ -138,7 +139,7 @@ const _sfc_main = {
         });
         showAnswers.value = true;
       } catch (e) {
-        common_vendor.index.__f__("error", "at pages/reading/reading.vue:229", e);
+        common_vendor.index.__f__("error", "at pages/reading/reading.vue:230", e);
         common_vendor.index.showToast({
           title: "提交失败",
           icon: "none"
@@ -230,8 +231,8 @@ const _sfc_main = {
                 b: common_vendor.t(content),
                 c: key,
                 d: userAnswers.value[`${index + 1}`] === key ? 1 : "",
-                e: showAnswers.value && questionList.value[0].answers[index].correct_answer === key ? 1 : "",
-                f: showAnswers.value && userAnswers.value[`${index + 1}`] === key && questionList.value[0].answers[index].correct_answer !== key ? 1 : "",
+                e: showAnswers.value && questionList.value[0].answers[index].content === key ? 1 : "",
+                f: showAnswers.value && userAnswers.value[`${index + 1}`] === key && questionList.value[0].answers[index].content !== key ? 1 : "",
                 g: common_vendor.o(($event) => selectAnswer(index + 1, key), key)
               };
             }),
