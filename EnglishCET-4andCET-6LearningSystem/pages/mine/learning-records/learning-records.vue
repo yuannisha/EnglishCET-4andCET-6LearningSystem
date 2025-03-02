@@ -91,6 +91,7 @@ const loadRecords = async () => {
  */
 const handleCategoryChange = (category) => {
   currentCategory.value = category
+  pagination.value.current = 1 // 切换类别时重置页码
   loadRecords()
 }
 
@@ -99,6 +100,7 @@ const handleCategoryChange = (category) => {
  */
 const handleTypeChange = (type) => {
   currentType.value = type
+  pagination.value.current = 1 // 切换类型时重置页码
   loadRecords()
 }
 
@@ -333,7 +335,7 @@ onMounted(() => {
 }
 
 .record-list {
-  height: calc(100vh - 300rpx);
+  height: calc(100vh - 400rpx); /* 调整高度以适应分页控件 */
 }
 
 .record-item {

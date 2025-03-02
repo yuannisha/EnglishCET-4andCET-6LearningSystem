@@ -42,7 +42,7 @@
   color: #fff;
 }
 .record-list {
-  height: calc(100vh - 300rpx);
+  height: calc(100vh - 400rpx); /* 调整高度以适应分页控件 */
 }
 .record-item {
   background-color: #fff;

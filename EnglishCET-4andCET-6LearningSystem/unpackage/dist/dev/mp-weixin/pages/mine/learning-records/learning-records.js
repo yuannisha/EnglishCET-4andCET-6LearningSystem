@@ -61,10 +61,12 @@ const _sfc_main = {
     };
     const handleCategoryChange = (category) => {
       currentCategory.value = category;
+      pagination.value.current = 1;
       loadRecords();
     };
     const handleTypeChange = (type) => {
       currentType.value = type;
+      pagination.value.current = 1;
       loadRecords();
     };
     const handlePageChange = (page) => {
